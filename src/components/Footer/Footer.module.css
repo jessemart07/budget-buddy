@@ -1,0 +1,26 @@
+.Footer{
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0px 5px 0px 5px;
+    color:#354649;
+    align-items: center;
+}
+.Designer p {
+    font-size: 1.2em;
+    margin-top:0px;
+    margin-bottom: 0px;
+}
+
+/* Large tablet landscape (iPad prod) */
+@media (min-width:990px) and (max-width:1200px){
+    .Footer{
+        width:54%;
+    }
+}
+/* Laptop */
+@media (min-width:1200px){
+    .Footer{
+        width:53%;
+    }
+}

@@ -29,24 +29,18 @@
     }
 }
 @media (min-width:990px) and (max-width:1200px){
-    .NavigationLinks {
-        height: 100%;
-        width: 60%;
-        margin: 0;
-        padding: 0;
-        display: flex; 
-        flex-direction: row;
-        justify-content: space-evenly;
-        z-index: 2;   
+    .NavigationLinks{
+        font-size: 1.5rem;
     }
 
     .Account{
-        width: 180px;
+        width: 300px;
         text-decoration: none;
         display: flex;
         align-items: center;
         justify-content: space-evenly;
         z-index: 2;
+        font-size: 1.2rem;
     }
 }
 @media (min-width: 1200px){

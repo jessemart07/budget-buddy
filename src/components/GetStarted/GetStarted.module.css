@@ -1,0 +1,149 @@
+.GetStarted{
+    background-image: url("../../assets/img/Get_started_bg.png") ;
+}
+.Content{
+    height:400px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    
+}
+.GetStarted p {
+    margin-top:0px;
+    font-size: 30px;
+    color:#354649;
+    font-weight: 500;
+    width:270px;
+    text-align: center;
+    z-index: 5;
+}
+.BackgroundImg{
+    width:100%;
+    height: auto;
+    position: absolute;
+}
+.IconSplash{
+    display: none;
+}
+.Curve{
+    display:none;
+}
+
+@media (min-width:450px) and (max-width: 840px) and (max-height:450px){
+    
+    .IconSplash{
+        margin-top:60px;
+        right:0;
+        position: absolute;
+        display: block;
+        width:180px;
+        height: 250px;
+        z-index: 2;
+    }
+    .GetStarted{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height:400px;
+    }
+    .Curve{
+        margin-top:30px;
+        display:block;
+        position: relative;
+        width: 100%;
+        height:auto;
+    }
+    .BackgroundImg{
+        height:374px;
+    }
+}
+
+@media (min-width:450px) and (max-width: 840px) and (min-height:450px){
+    .IconSplash{
+        margin-top:60px;
+        right:0;
+        position: absolute;
+        display: block;
+        width:180px;
+        height: 250px;
+        z-index: 2;
+    }
+    .GetStarted{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height:400px;
+    }
+    .Curve{
+        margin-top:30px;
+        display:block;
+        position: relative;
+        width: 100%;
+        height:auto;
+    }
+    .BackgroundImg{
+        height:374px;
+    }
+}
+
+@media (min-width:990px) and (max-width: 1200px){
+    .IconSplash{
+        margin-top:100px;
+        right: 20px;
+        position: absolute;
+        display: block;
+        width:250px;
+        height: 350px;
+        z-index: 2;
+    }
+    .GetStarted{
+        height:auto;
+    }
+    .Content{
+        height:500px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+    .BackgroundImg{
+        width:100%;
+        height: auto;
+        position: absolute;
+    }
+    .Curve{
+        margin-top:-70px;
+        display:block;
+        position: relative;
+        width: 100%;
+        height:auto;
+    }
+}
+@media (min-width:1200px){
+    .GetStarted{
+        margin-top:40px;
+    }
+    .IconSplash{
+        margin-top:50px;
+        right: 20px;
+        position: absolute;
+        display: block;
+        width:300px;
+        height: auto;
+        z-index: 2;
+    }
+    .Content{
+        height:600px;
+        display: flex;
+        justify-content: center;
+        flex-direction: column;
+        align-items: center;
+    }
+    .BackgroundImg{
+        width:100%;
+        height: auto;
+        position: relative;
+    }
+   
+}

@@ -1,0 +1,26 @@
+.Form{
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.SubmitBtn{
+    position: relative;
+    width:300px;
+    height:50px;
+    box-sizing: border-box;
+    outline:0;
+    border:none;
+    background-color:#ffc95e;
+    color:#354649;
+    font-size: 22px;
+    font-weight: 500;
+    cursor: pointer;
+    z-index: 2;
+    box-shadow: #00000050 0px 0px 10px;
+    transition: ease all 0.2s;
+}
+.SubmitBtn:hover{
+    background-color: #fff;
+    border:1px solid #354649;
+}

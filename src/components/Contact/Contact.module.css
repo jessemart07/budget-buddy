@@ -1,0 +1,74 @@
+.Contact{
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+.Contact h5{
+    font-family: 'Montserrat' sans-serif;
+    font-weight: 500;
+    color:#354649;
+    font-size: 30px;
+    margin-top:20px;
+    margin-bottom: 0px;
+}
+.Side{
+   width:300px;
+   text-align: center;
+}
+.Side p{
+    color: #354649;
+}
+.ContactImg, .Divider{
+    display: none;
+}
+.ContactImg{
+    position: absolute;
+    left: -8px;
+    width:150px;
+}
+
+/* Large tablet landscape (iPad prod) */
+@media (min-width:990px) and (max-width:1200px){
+    .ContactImg{
+        display: block;
+    }
+    .Contact h5{
+        font-size: 30px;
+        margin-top:-10px;
+        margin-bottom: 0px;
+    }
+}
+/* Laptop */
+@media (min-width:1200px){
+    .ContactImg{
+        display: block;
+    }
+    .Divider{
+        display: block;
+    }
+    .ContactBody{
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        width:800px;
+    }
+    .Divider{
+        background-color: #354649;
+        width:8px;
+        border-radius: 3px;
+    }
+    .Contact h5{
+        font-size: 40px;
+        margin-top:-50px;
+        margin-bottom: 50px;
+    }
+    .Contact p{
+        font-size: 1.2em;
+    }
+    .Side{
+        text-align: start;
+    }
+}
+
+

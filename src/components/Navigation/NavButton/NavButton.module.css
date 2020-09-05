@@ -20,6 +20,7 @@
 .NavButton:hover{
     background-color: white;
     border: 1px solid #A3C6C4;
+    transition: ease all 0.2s;
 }
 
 .NavButton a:hover{
@@ -31,5 +32,19 @@
         width:100px;
         height: auto;
         padding:5px 0px 8px 0px;
+    }
+}
+
+@media (min-width:990px) and (max-width:1200px){
+    .NavButton{
+        width:100px;
+        height: auto;
+        padding:5px 0px 8px 0px;
+    }
+}
+
+@media (min-width:1200px){
+    .NavButton{
+        width:90px;
     }
 }

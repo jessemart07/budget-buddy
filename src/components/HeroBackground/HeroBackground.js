@@ -11,36 +11,38 @@ import SeperatorCurve from '../SeperatorCurve/SeperatorCurve';
 const HeroBackground = () => {
     return (
         <React.Fragment>
-            <div className={classes.HeroBG}>
-                <div className={classes.CornerImg}>
-                    <img  src={HeroCorner} alt=""/>
-                </div>
-                <div className={classes.Illustration}>
-                    <img src={HeroIllustrationImg} alt=""/>
-                </div>
-                <div className={classes.WideBackgroundImg}>
-                    <img  src={HeroBackgroundImg} alt=""/>
-                </div>
-                <div className={classes.MobileBackgroundImg}>
-                    <img  src={HeroMobileImg} alt=""/>
-                </div>
-                <div className={classes.ImageOverlay}>
-                    <div className={classes.HeroText}>
-                        <p className={classes.HeroHeading}>
-                            The Budget Buddy
-                        </p>
-                        <p className={classes.HeroSubheading}>
-                            Just A Simple Tool To Help You 
-                            Budget And Fight Back For Your 
-                            Cash
-                        </p>
+            <div className={classes.Hero}>
+                <div className={classes.HeroBG}>
+                    <div className={classes.CornerImg}>
+                        <img  src={HeroCorner} alt=""/>
                     </div>
-                    <div className={classes.GetStarted}>
-                        <GettingStartedBtn>Get Started</GettingStartedBtn>
+                    <div className={classes.Illustration}>
+                        <img src={HeroIllustrationImg} alt=""/>
                     </div>
-                </div>
-                <div className={classes.Curve}>
-                    <SeperatorCurve></SeperatorCurve>
+                    <div className={classes.WideBackgroundImg}>
+                        <img  src={HeroBackgroundImg} alt=""/>
+                    </div>
+                    <div className={classes.MobileBackgroundImg}>
+                        <img  src={HeroMobileImg} alt=""/>
+                    </div>
+                    <div className={classes.ImageOverlay}>
+                        <div className={classes.HeroText}>
+                            <h5 className={classes.HeroHeading}>
+                                The Budget Buddy
+                            </h5>
+                            <p className={classes.HeroSubheading}>
+                                Just A Simple Tool To Help You 
+                                Budget And Fight Back For Your 
+                                Cash
+                            </p>
+                        </div>
+                        <div className={classes.GetStarted}>
+                            <GettingStartedBtn square={true}>Get Started</GettingStartedBtn>
+                        </div>
+                    </div>
+                    <div className={classes.Curve}>
+                        <SeperatorCurve></SeperatorCurve>
+                    </div>
                 </div>
             </div>
         </React.Fragment>

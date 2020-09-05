@@ -8,6 +8,7 @@
     color: #354649;
     text-decoration: none;
     z-index: 3;
+    transition: ease all 0.2s;
 }
 
 @media (min-width: 450px){

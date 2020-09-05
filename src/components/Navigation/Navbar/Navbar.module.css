@@ -4,18 +4,21 @@
 }
 
 .Navbar{
-    position: relative;
+    position: fixed;
     font-family: 'Montserrat', sans-serif;
-    background: transparent;
     z-index: 99;
     display: flex;
     justify-content: space-between;
     align-items: center;
     width: 100%;
     height:10vh;
+    max-height: 80px;
+    transition: all 0.2s;
+    z-index: 10;
 }
 
 .list{
+    font-size: 1.2rem;
     height: 100vh;
     width: 250px;
     display: flex;
@@ -37,20 +40,29 @@
     }
 }
 
-
-
-@media (min-width:990px){
+@media (min-width:990px) and (max-width:1200px){
     .Navbar{
+        margin-top:0;
+    }
+    .list{
+        width:400px;
+    }
+}
+
+@media (min-width:1200px){
+    .Navbar{
+        position: fixed;
         height: 10vh;
         max-height: 70px;
         width: 100%;
         display: flex;
         flex-direction: row;
-        z-index: 2;
+        z-index: 10;
         align-items: center;
         justify-content: space-between;
         font-family: 'Montserrat', sans-serif;
         margin-right:0px;
+        margin-top:10vh;
     }
     
     .Desktop{

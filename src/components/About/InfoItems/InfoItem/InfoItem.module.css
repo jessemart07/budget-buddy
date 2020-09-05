@@ -1,0 +1,29 @@
+.InfoItem{
+    width: 150px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    transition: all ease 0.5s;
+    z-index: 10;
+}
+.InfoItem:hover{
+    transform: scale(1.1);
+}
+.Icon{
+    width:135px;
+    height: auto;   
+}
+.Content{
+    width:150px;
+    text-align: center;
+}
+
+@media (min-width: 1200px){
+    .InfoItem{
+        width: 220px;
+    }
+    .Content{
+        width: 100%;
+        font-size: 20px;
+    }
+}

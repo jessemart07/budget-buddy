@@ -13,8 +13,8 @@ const NavigationLinks = () => {
         </ul>
         
         <div className={classes.Account}>
-            <NavButton link="#">Log In</NavButton>
-            <NavigationLink link="#">Sign up</NavigationLink>
+            <NavButton link="#">Sign up</NavButton>
+            <NavigationLink link="#">Log In</NavigationLink>
         </div>
         </React.Fragment>
         

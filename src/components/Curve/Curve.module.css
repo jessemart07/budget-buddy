@@ -1,0 +1,57 @@
+.Curve{
+    display: none;
+}
+
+
+
+
+@media (min-width:450px) and (max-width: 840px) and (max-height:450px){
+    .Curve{
+        margin-top:-30px;
+        display: block;
+        width:100%;
+    }
+    
+    .Curve img{
+        width:100%;
+        height: auto;
+    }
+}
+
+@media (min-width:450px) and (max-width: 840px) and (min-height:450px){
+    .Curve{
+        margin-top:-40px;
+        display: block;
+        width:100%;
+    }
+    
+    .Curve img{
+        width:100%;
+        height: auto;
+    }
+}
+
+@media (min-width:990px) and (max-width: 1200px){
+    .Curve{
+        margin-top:-50px;
+        display: block;
+        width:100%;
+    }
+    
+    .Curve img{
+        width:100%;
+        height: auto;
+    }
+}
+@media (min-width:1200px){
+    .Curve{
+        margin-top:-80px;
+        display: block;
+        width:100%;
+    }
+    
+    .Curve img{
+        width:100%;
+        height: auto;
+    }
+}

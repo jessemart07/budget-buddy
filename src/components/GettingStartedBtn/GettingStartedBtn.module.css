@@ -6,9 +6,11 @@
     background-color: #d3ac2b;
     display: flex;
     align-items: center;
-    justify-content: space-between;
+    justify-content: center;
     cursor: pointer;
     z-index: 2;
+    box-shadow: #00000050 0px 0px 10px;
+    transition: ease all 0.2s;
 }
 
 .GettingStartedBtn:hover{
@@ -20,6 +22,7 @@
     width: 80%;
     font-family: 'Montserrat', sans-serif;
     font-size: 18px;
+    font-weight: 500;
 }
 
 .BtnSquare{

@@ -3,7 +3,10 @@
 }
 
 .MobileBackgroundImg{
-    
+    top:0;
+    position: relative;
+    height: 100vh;
+    max-height: 700px;
     width: 100%;
     z-index: 1;
 }
@@ -18,10 +21,11 @@
 }
 
 .ImageOverlay{
-    position: relative;
+    position: absolute;
     z-index: 2;
     display: flex;
     font-family: 'Montserrat' sans-serif;
+    width: 100%;
 }
 
 .HeroText{
@@ -42,7 +46,13 @@
     margin-bottom: 40px;
 }
 
-@media (max-width: 450px){
+.Hero{
+    max-height: 700px;
+    height:100vh;
+}
+
+/*Mobile view portrait*/
+@media (max-width: 660px){
     .ImageOverlay{
         top:120px;
         justify-content: center;
@@ -65,6 +75,7 @@
         display: none;
     }
 }
+/* Mobile view landscape */
 @media (min-width:450px) and (max-width: 840px) and (max-height:450px){
     .ImageOverlay{
         position: absolute;
@@ -86,7 +97,7 @@
     .Curve, .CornerImg, .Illustration{
         display: none;
     }
-    .MobileBackgroundImg img{
+    .MobileBackgroundImg{
         display: none;
     }
     .WideBackgroundImg img{
@@ -109,12 +120,13 @@
     }
     
 }
-
+/* Tablet view portrait */
 @media (min-width: 660px) and (max-width:990px) and (min-height:450px){
     .ImageOverlay{
-        position: absolute;
-        left:40px;
-        top:80px;
+        width:300px;
+        position: relative;
+        left:20px;
+        top:-200px;
         justify-content: center;
         flex-direction: column;
         align-items: center;
@@ -136,6 +148,17 @@
         right: 0;
     }
 
+    .Hero{
+        height:400px;
+    }
+
+    .WideBackgroundImg{
+        position: absolute;
+        top:0;
+        width:100%;
+        height: 400px;
+    }
+
     .WideBackgroundImg img{
         top:0;
         position: absolute;
@@ -147,8 +170,8 @@
     .Illustration{
         display: block;
         z-index: 5;
-        position: absolute;
-        right: 50px;
+        position: relative;
+        margin-left:320px;
         top:80px;
     }
     .Illustration img{
@@ -159,9 +182,11 @@
     }
     .Curve{
         position: relative;
-        top:245px;
+        margin-top:-190px;
     }
-    
+    .HeroBG{
+        height:400px;
+    }
     .HeroHeading{
         font-size: 1.5rem;
     }
@@ -171,11 +196,16 @@
         width: 260px;
     }
 }
+/* Large tablet landscape (iPad prod) */
 @media (min-width:990px) and (max-width:1200px){
+    .Hero{
+        height:500px;
+    }
     .ImageOverlay{
-        position: absolute;
+        width:300px;
+        position: relative;
         left:80px;
-        top:120px;
+        margin-top:-350px;
         justify-content: center;
         flex-direction: column;
         align-items: center;
@@ -187,10 +217,12 @@
         display: none;
     }
     .CornerImg{
-        display: block;
+        width:100%;
+        display: flex;
+        justify-content: flex-end;
     }
     .CornerImg img{
-        position: absolute;
+        position: relative;
         width: 300px;
         height:270px;
         top:0;
@@ -208,9 +240,9 @@
     .Illustration{
         display: block;
         z-index: 5;
-        position: absolute;
-        right: 90px;
-        top:110px;
+        position: relative;
+        margin-top: -160px;
+        margin-left:450px;
     }
     .Illustration img{
         width:500px;
@@ -220,7 +252,7 @@
     }
     .Curve{
         position: relative;
-        top:380px;
+        top:80px;
     }
     
     .HeroHeading{
@@ -232,6 +264,7 @@
         width: 260px;
     }
 }
+/* Laptop */
 @media (min-width:1200px){
     .Mobile{
         display:block;
@@ -244,7 +277,7 @@
         z-index: 1;
     }
 
-    .MobileBackgroundImg img{
+    .MobileBackgroundImg{
         display: none;
     }
 
@@ -266,8 +299,9 @@
         top: 0;
         right: 0;
         position: absolute;
-        height:400px;
+        height:350px;
         width:400px;
+        margin-top:10vh;
     }
 
     .Illustration img{
@@ -283,7 +317,7 @@
         width: 350px;
         position: absolute;
         left: 150px;
-        top:200px;
+        top:250px;
         flex-direction: column;
         justify-content: flex-start;
     }

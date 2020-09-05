@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Logo from '../Logo/Logo';
 import classes from './Navbar.module.css';
 import NavigationLinks from '../NavigationLinks/NavigationLinks';
@@ -28,8 +28,25 @@ const useStyles = makeStyles(() => ({
 
 const Navbar = () => {
 
+    
     const [isOpen, setIsOpen] = useState();
+    const [color, setColor] = useState();
     const styles = useStyles();
+
+    const listenScrollEvent = (event) =>  {
+        console.log(window.scrollY);
+        if(window.scrollY < 70){
+            setColor("transparent");
+        }else if(window.scrollY > 70){
+            setColor("#fff");
+        }
+        console.log(color);
+    }
+    useEffect(() => {
+        window.addEventListener('scroll', listenScrollEvent);
+
+        return () => window.removeEventListener('scroll', listenScrollEvent);
+    }, []);
 
     const toggleDrawer = (open) => (event) => {
         if (event.type === 'keydown' && (event.key === 'Tab' || event.key === 'Shift')) {
@@ -49,7 +66,7 @@ const Navbar = () => {
     )
     
     return(
-        <div className={classes.Navbar}>
+        <div className={classes.Navbar} style={{backgroundColor: color}}>
             <Logo></Logo>
             <div className={classes.Desktop}>
                 <NavigationLinks></NavigationLinks>
