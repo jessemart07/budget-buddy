@@ -19,6 +19,24 @@
     z-index: 2;
 }
 
+.link {
+    cursor: pointer;
+    color:#354649;
+    text-decoration: none;
+    z-index: 3;
+    transition: ease all 0.2s;
+}
+.active{
+    color:#D3ac2b;
+    font-weight: 500;
+}
+
+@media (min-width: 450px){
+    .link:hover{
+        color: #D3ac2b;
+    }
+}
+
 @media (min-width: 660px) and (max-width:990px) and (min-height:450px){
     .NavigationLinks{
         font-size: 1.5rem;

@@ -17,12 +17,19 @@
     background-color: #ffc95e;
 }
 
-.Text{
+.Text {
+    
     text-align: center;
     width: 80%;
+    
+}
+
+.Text a{
+    color: #354649;
     font-family: 'Montserrat', sans-serif;
     font-size: 18px;
     font-weight: 500;
+    text-decoration: none;
 }
 
 .BtnSquare{

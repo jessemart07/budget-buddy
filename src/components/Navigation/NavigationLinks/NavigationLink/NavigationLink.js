@@ -1,10 +1,18 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { Link, animateScroll as scroll } from "react-scroll";
 import classes from './NavigationLink.module.css';
 const NavigationLink = (props) => {
     return (
         <li className={classes.NavigationLink}>
-            <a href={props.link}>{props.children}</a>
+            <Link 
+            
+            activeClass={classes.active}
+            to={props.link}
+            spy={true}
+            smooth={true}
+            offset={-100}
+            duration={700}
+            >{props.children}</Link>
         </li>
     )
 };

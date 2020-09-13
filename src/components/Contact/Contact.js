@@ -5,7 +5,7 @@ import ContactImg from '../../assets/img/Contact_image.png';
 
 const Contact = () => {
     return(
-        <div className={classes.Contact}>
+        <div title="contact" id="contact" className={classes.Contact}>
             <h5>Contact</h5>
             <img className={classes.ContactImg} src={ContactImg} alt="Contact image"/>
             <div className={classes.ContactBody}>

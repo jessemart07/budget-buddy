@@ -11,7 +11,7 @@ import SeperatorCurve from '../SeperatorCurve/SeperatorCurve';
 const HeroBackground = () => {
     return (
         <React.Fragment>
-            <div className={classes.Hero}>
+            <div title="home" id="home" className={classes.Hero}>
                 <div className={classes.HeroBG}>
                     <div className={classes.CornerImg}>
                         <img  src={HeroCorner} alt=""/>

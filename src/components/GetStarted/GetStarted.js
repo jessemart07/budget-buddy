@@ -6,7 +6,7 @@ import SeperatorCurve from '../../assets/img/Section_seperator_curve.png';
 import classes from './GetStarted.module.css';
 const GetStarted = () => {
     return (
-        <div className={classes.GetStarted}>
+        <div id="get-started" className={classes.GetStarted}>
             <img className={classes.IconSplash} src={IconSplash} alt=""/>
             <div className={classes.Content}>
                 <p>
