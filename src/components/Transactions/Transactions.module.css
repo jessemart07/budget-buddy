@@ -1,6 +1,7 @@
 .Transactions{
+    top: 0;
     max-width: 1000px;
-    margin: 200px auto;
+    margin: 0px auto;
     position: relative;
 }
 
