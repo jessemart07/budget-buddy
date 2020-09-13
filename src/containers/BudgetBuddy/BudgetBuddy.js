@@ -3,7 +3,7 @@ import Budget from '../../components/Budget/Budget';
 import Paper from '@material-ui/core/Paper';
 import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
-import TabPanel from '../../utils/TabPanel';
+import TabPanel from '../../utils/TabPanel/TabPanel';
 import Transactions from '../../components/Transactions/Transactions';
 import { Container } from '@material-ui/core';
 import classes from './BudgetBuddy.module.css';
