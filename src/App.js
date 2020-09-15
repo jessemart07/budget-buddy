@@ -9,7 +9,8 @@ import Budget from './containers/BudgetBuddy/BudgetBuddy';
 const theme = createMuiTheme({
   palette: {
     primary: {
-      main: '#a3c6c4'
+      main: '#a3c6c4',
+      contrastText:"#fff"
     },
     secondary: {
       main: '#354649'

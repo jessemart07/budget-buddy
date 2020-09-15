@@ -1,0 +1,28 @@
+.CircleButton{
+    right:0;
+    margin-right:-100px;
+    z-index:2;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
+.Circle{
+    height: 56px;
+    width: 56px;
+    background-color: #a3c6c4;
+    border: none;
+    border-radius: 50%;
+    color:#fff;
+    outline: none;
+    transition: all ease 0.3s;
+    margin-top:-90px;
+    box-shadow: rgba(0, 0, 0, 0.219) 1px 0px 8px;
+}
+.Circle:hover, .Circle:focus{
+    cursor: pointer;
+    background-color: #fff;
+    color: #a3c6c4;
+    border: 2px solid #a3c6c4;
+    transform: translateY(-5px);
+    box-shadow: rgba(0, 0, 0, 0.219) 1px 0px 5px;
+}

@@ -8,6 +8,9 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
+import CircleButton from '../CircleButton/CircleButton';
+import Fab from '@material-ui/core/Fab';
+import AddRoundedIcon from '@material-ui/icons/AddRounded';
 
 const useStyles = makeStyles((theme) => ({
     container:{
@@ -34,8 +37,8 @@ const useStyles = makeStyles((theme) => ({
         marginRight: "5px",
         marginLeft: "5px"
     },
-    header:{
-        
+    fab:{
+        right:0
     }
 }))
 const data = [
@@ -46,6 +49,8 @@ const data = [
 const Transactions = () => {
     const styles = useStyles();
     return(
+
+        <React.Fragment>
         <div className={classes.Transactions}>
             <TableContainer className={styles.container} component={Paper} elevation="4">
                 <Table className={styles.table}>
@@ -70,6 +75,15 @@ const Transactions = () => {
                 </Table>
             </TableContainer>
         </div>
+        <div className={classes.FloatingButton}>
+            <Fab 
+            color="primary" 
+            aria-label="add" 
+            className={styles.fab}>
+                <AddRoundedIcon/>
+            </Fab>
+        </div>
+        </React.Fragment>
     )
 }
 

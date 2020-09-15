@@ -4,4 +4,11 @@
     position: relative;
     overflow: hidden;
 }
+.MenuButton{
+    color:#fff;
+}
+.MenuButton:hover{
+    background-color: #fff;
+}
+
 

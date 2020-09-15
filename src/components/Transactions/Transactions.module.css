@@ -4,4 +4,12 @@
     margin: 0px auto;
     position: relative;
 }
+.FloatingButton{
+    width:110%;
+    margin-top:-50px;
+    margin-right:-100px;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+}
 

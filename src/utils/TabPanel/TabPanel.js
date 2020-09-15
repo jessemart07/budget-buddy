@@ -31,7 +31,7 @@ function TabPanel(props) {
           }}
         >
           
-            <Box p={3} className={classes.TabPanel}>
+            <Box p={2} className={classes.TabPanel}>
               {children}
             </Box>
          
