@@ -1,19 +1,13 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core';
 import classes from './Budget.module.css';
-import Tabs from '@material-ui/core/Tabs';
-import Tab from '@material-ui/core/Tab';
 import BudgetItem from '../Budget/BudgetItem/BudgetItem';
 import SpeedDial from '@material-ui/lab/SpeedDial';
 import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
-import SpeedDialIcon from '@material-ui/lab/SpeedDialIcon';
-import CloseRoundedIcon from '@material-ui/icons/CloseRounded';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
-import Typography from '@material-ui/core/Typography';
 import { useState } from 'react';
-import { act } from 'react-dom/test-utils';
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -48,12 +42,12 @@ const useStyles = makeStyles((theme) => ({
         right:0,
         bottom:0,
         marginRight:"-60px",
-        
     }
 }))
 const data = [
     {
-        category:"Food", budget: 1000,
+        category:"Food", 
+        budget: 1000,
         items:{
             item1:{
                     name:"Spur",
@@ -121,12 +115,12 @@ const data = [
         category:"Health and Medical",
         budget:2000
     }
-    
 ]
 
 const Budget = () => {
     const styles = useStyles();
     const [open, SetOpen] = useState(false);
+
     const HandleOpen = () => {
         SetOpen(true);
     }
@@ -134,49 +128,49 @@ const Budget = () => {
     const HandleClose = () => {
         SetOpen(false);
     }
+
     return(
         <React.Fragment>
             <div className={classes.Budget}>
-            {data.map(row => {
-                
-                let actual = 0;
-                if(row.items != null){
-                    for(const item in row.items){
-                        actual += Number.parseFloat(row.items[item].amount);
-                     }
-                }
-                
-                console.log(row.items);
-                return(
-                    <BudgetItem 
-                    key={row.category}
-                    category={row.category}
-                    actual={actual}
-                    budget={Number.parseFloat(row.budget).toFixed(2)}
-                    items={row.items}></BudgetItem>
-                )
-            })}
-        </div>
-        <SpeedDial
-            ariaLabel="Menu-speed-dial"
-            icon={<MoreVertRoundedIcon/>}
-            onOpen={HandleOpen}
-            onClose={HandleClose}
-            open={open}
-            direction="up"
-            className={styles.SpeedDial}
-            >
-            <SpeedDialAction
-                key="edit"
-                tooltipTitle="edit category"
-                icon={<CreateRoundedIcon/>}
-                onClick={HandleClose}></SpeedDialAction>
-            <SpeedDialAction
-                key="add"
-                tooltipTitle="add category"
-                icon={<AddRoundedIcon/>}
-                onClick={HandleClose}></SpeedDialAction>
-        </SpeedDial>
+                {data.map(row => {
+                    let actual = 0;
+                    if(row.items != null){
+                        for(const item in row.items){
+                            actual += Number.parseFloat(row.items[item].amount);
+                        }
+                    }
+                    
+                    return(
+                        <BudgetItem 
+                        key={row.category}
+                        category={row.category}
+                        actual={actual}
+                        budget={Number.parseFloat(row.budget).toFixed(2)}
+                        items={row.items}></BudgetItem>
+                    )
+                })}
+            </div>
+
+            <SpeedDial
+                ariaLabel="Menu-speed-dial"
+                icon={<MoreVertRoundedIcon/>}
+                onOpen={HandleOpen}
+                onClose={HandleClose}
+                open={open}
+                direction="up"
+                className={styles.SpeedDial}
+                >
+                <SpeedDialAction
+                    key="edit"
+                    tooltipTitle="edit category"
+                    icon={<CreateRoundedIcon/>}
+                    onClick={HandleClose}></SpeedDialAction>
+                <SpeedDialAction
+                    key="add"
+                    tooltipTitle="add category"
+                    icon={<AddRoundedIcon/>}
+                    onClick={HandleClose}></SpeedDialAction>
+            </SpeedDial>
         </React.Fragment>
         
     )

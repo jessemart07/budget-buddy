@@ -41,15 +41,142 @@ const useStyles = makeStyles((theme) => ({
         right:0
     }
 }))
+
 const data = [
-    {category:"Food", description: "Checkers Groceries", date:"26 July", amount:"R500.00"},
-    {category: "Investments", description:"FNB Savings Account",date: "22 July", amount:"R1,200.00"},
-    {category: "Investments", description:"FNB Savings Account", date:"20 July", amount:"R1,200.00"}
-]
+    {
+        category:"Food", 
+        budget: 1000,
+        items:{
+            item1:{
+                    name:"Spur",
+                    description: "A great meal at Spur",
+                    amount: 500,
+                    date: new Date("2020-07-26")
+                },
+            item2:{
+                    name:"Woolworths",
+                    description: "Spent a lot on Gluten free stuff",
+                    amount: 200,
+                    date: new Date("2020-07-27")
+                }
+        }
+    },
+    {
+        category:"Clothing", 
+        budget: 2000,
+        items:{
+            item1:{
+                    name:"Mr.Price",
+                    description: "Got some clothes at Mr.Price",
+                    amount: 300,
+                    date: new Date("2020-07-18")
+                },
+            item2:{
+                    name:"Woolworths",
+                    description: "Bought a fancy jacket",
+                    amount: 299,
+                    date: new Date("2020-07-11")
+                }
+        }
+    },
+    {
+        category:"Internet/Telephone", 
+        budget: 500,
+        items:{
+            item1:{
+                    name:"Vodacom",
+                    description: "R29 airtime",
+                    amount: 29,
+                    date: new Date("2020-07-15")
+                },
+            item2:{
+                    name:"Fibre Telecoms",
+                    description: "My monthly fast wifi",
+                    amount: 300,
+                    date: new Date("2020-07-01")
+                }
+        }
+    },
+    {
+        category:"Investments", 
+        budget: 500,
+        items:{
+            item1:{
+                name:"FNB Savings",
+                description: "Investing my millions",
+                amount: 500,
+                date: new Date("2020-07-02")
+            },
+        }
+    },
+    {
+        category:"Health and Medical",
+        budget:2000
+    }
+];
+
+
 const Transactions = () => {
     const styles = useStyles();
-    return(
+    let tableRow;
+    let transactions=[];
+    data.map(row => {
+        const category = row.category;
+        if(row.items != null){
+        Object.keys(row.items).map(itemKey => {
+                transactions.push({
+                    category: category,
+                    ...row.items[itemKey]
+                });
+            }
+        )}
+    })
+    const sortedTranasctions = transactions.sort((a,b) => b.date - a.date)
+    const ConvertMonth = (month) => {
+        switch(month){
+            case(1):
+                return "Jan";
+                break;
+            case(2):
+                return "Feb";
+                break;
+            case(3):
+                return "Mar";
+                break;
+            case(4):
+                return "Apr";
+                break;
+            case(5):
+                return "May";
+                break;
+            case(6):
+                return "Jun";
+                break;
+            case(7):
+                return "Jul";
+                break;
+            case(8):
+                return "Aug";
+                break;
+            case(9):
+                return "Sep";
+                break;
+            case(10):
+                return "Oct";
+                break;
+            case(11):
+                return "Nov";
+                break;
+            case(12):
+                return "Dec";
+                break;
+            default:
+                return "Month";
+                break;
+        }
+    }
 
+    return(
         <React.Fragment>
         <div className={classes.Transactions}>
             <TableContainer className={styles.container} component={Paper} elevation="4">
@@ -63,14 +190,21 @@ const Transactions = () => {
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {data.map((row)=>(
-                            <TableRow className={styles.row}>
-                                <TableCell className={styles.cell} component="th" scope={row}>{row.category}</TableCell>
-                                <TableCell className={styles.cell} >{row.description}</TableCell>
-                                <TableCell className={styles.cell} >{row.date}</TableCell>
-                                <TableCell className={styles.cell} >{row.amount}</TableCell>
-                            </TableRow>
-                        ))}
+                        {sortedTranasctions.map((row)=>{
+                            const cat = row.category;
+                            console.log(row);
+                            const day = row.date.getDate();
+                            const month = ConvertMonth(row.date.getMonth());
+                                return (
+                                    <TableRow className={styles.row}>
+                                        <TableCell className={styles.cell} component="th" scope={row}>{cat}</TableCell>
+                                        <TableCell className={styles.cell} >{row.description}</TableCell>
+                                        <TableCell className={styles.cell} >{day + " " + month}</TableCell>
+                                        <TableCell className={styles.cell} >{Number.parseFloat(row.amount).toFixed(2)}</TableCell>
+                                    </TableRow>
+                                )
+                            }
+                        )}
                     </TableBody>
                 </Table>
             </TableContainer>

@@ -12,7 +12,7 @@ import classes from './BudgetBuddy.module.css';
 
 class BudgetBuddy extends Component {
     state = { 
-        value: 0
+        value: 1
         
     }
     

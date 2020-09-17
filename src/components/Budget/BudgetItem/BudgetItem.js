@@ -36,15 +36,22 @@ const BudgetItem = (props) => {
     let barWidth = 0; 
     let full = false;
     let items = "You have no items in this category yet";
+
     barWidth = props.actual /props.budget *100;
+
     const styles = useStyles()
+    
     if(props.items != null){
+        let id = 0;
          items = Object.keys(props.items).map(item => {
+            id++;
             return(
                 <ItemDetails 
+                    key={id}
                     amount={props.items[item].amount}
                     description={props.items[item].name}/>
             )
+            
         })
     }
     
@@ -53,9 +60,7 @@ const BudgetItem = (props) => {
         barWidth = 100;
         full = true;
     }
-
     
-
     return(
         <Accordion>
                 <AccordionSummary expandIcon={<ExpandMoreIcon/>}>
