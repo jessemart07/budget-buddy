@@ -11,7 +11,8 @@ import Paper from '@material-ui/core/Paper';
 import CircleButton from '../CircleButton/CircleButton';
 import Fab from '@material-ui/core/Fab';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
-import TransactionDrawer from './TransactionsDrawer/TransactionsDrawer';
+import EditTransactionDrawer from './EditTransactionsDrawer/EditTransactionsDrawer';
+import AddTransactionDrawer from './AddTransactionsDrawer/AddTransactionsDrawer';
 import Drawer from '@material-ui/core/Drawer';
 
 
@@ -135,7 +136,14 @@ const Transactions = () => {
     const styles = useStyles();
     let tableRow;
     let transactions=[];
-    let [isOpen, setIsOpen] = useState(false);
+    let [AddOpen, setAddOpen] = useState(false);
+    let [EditOpen, setEditOpen] = useState(false);
+    let [values, setValues] = useState({
+        category: "",
+        description: "",
+        date: new Date(Date.now()),
+        amount: "0.00"
+    })
     
     data.map(row => {
         const category = row.category;
@@ -149,9 +157,20 @@ const Transactions = () => {
         )}
     })
 
-    const toggleDrawer = (status) => (event) => {
-        setIsOpen(status);
+    const toggleAddDrawer = (status) => (event) => {
+        setAddOpen(status);
     }
+
+    const CloseEditDrawer = (status) => (event) => {
+        setEditOpen(status);
+    }
+
+    const editClick = (data) => (event) => {
+        setEditOpen(true);
+        setValues({
+            data
+        })
+    } 
     
     const sortedTranasctions = transactions.sort((a,b) => b.date - a.date)
     const ConvertMonth = (month) => {
@@ -213,13 +232,11 @@ const Transactions = () => {
                     </TableHead>
                     <TableBody>
                         {sortedTranasctions.map((row)=>{
-                            const cat = row.category;
-                            console.log(row);
                             const day = row.date.getDate();
                             const month = ConvertMonth(row.date.getMonth());
                                 return (
-                                    <TableRow className={styles.row}>
-                                        <TableCell className={styles.cell} component="th" scope={row}>{cat}</TableCell>
+                                    <TableRow className={classes.row} onClick={editClick(row)}>
+                                        <TableCell className={styles.cell} component="th" scope={row}>{row.category}</TableCell>
                                         <TableCell className={styles.cell} >{row.description}</TableCell>
                                         <TableCell className={styles.cell} >{day + " " + month}</TableCell>
                                         <TableCell className={styles.cell} >R{Number.parseFloat(row.amount).toFixed(2)}</TableCell>
@@ -236,11 +253,14 @@ const Transactions = () => {
             color="primary" 
             aria-label="add" 
             className={styles.fab}
-            onClick={toggleDrawer(true)}>
+            onClick={toggleAddDrawer(true)}>
                 <AddRoundedIcon />
             </Fab>
-            <Drawer anchor="right" open={isOpen} onClose={toggleDrawer(false)}>
-                <TransactionDrawer/>
+            <Drawer anchor="right" open={AddOpen} onClose={toggleAddDrawer(false)}>
+                <AddTransactionDrawer edit={true} />
+            </Drawer>
+            <Drawer anchor="right" open={EditOpen} onClose={CloseEditDrawer(false)}>
+                <EditTransactionDrawer edit={false} values={values}/>
             </Drawer>
         </div>
         </React.Fragment>

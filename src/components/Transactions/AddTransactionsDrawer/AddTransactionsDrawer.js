@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IconButton, InputLabel, MenuItem, TextField } from '@material-ui/core';
+import { Button, InputLabel, MenuItem, TextField } from '@material-ui/core';
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker
@@ -9,19 +9,30 @@ import Grid from '@material-ui/core/Grid';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import CloseIcon from '@material-ui/icons/Close';
-import classes from './TransactionsDrawer.module.css';
+import classes from './AddTransactionsDrawer.module.css';
 const TransactionDrawer = (props) => {
     
+    let [description, setDescription] = useState()
     let [category, setCategory] = useState();
-    let [date, setDate] = useState(new Date(Date.now()));
+    let [date, setDate] = useState();
+    let [amount, setAmount] = useState();
 
     const handleCategoryChange = (event) => {
         setCategory(event.target.value);
     }
 
-    const handleDateChange = (date) => {
-        setDate(date);
+    const handleDateChange = (value) => {
+        setDate(value);
     };
+
+    const handleAmountChange = (event) => {
+        setAmount(event.target.value);
+    };
+
+    const handleDescriptionChange = (event) => {
+        setDescription(event.target.value);
+    };
+
     const data = [
         {
             category:"Food", 
@@ -96,7 +107,6 @@ const TransactionDrawer = (props) => {
     ];
 
     return(
-        
         <div className={classes.list}>
             <div className={classes.form}>
                 <FormControl >
@@ -118,17 +128,23 @@ const TransactionDrawer = (props) => {
                     rows={3}
                     variant="outlined"
                     style={{marginTop:20}}
-                    size="small"></TextField>
+                    size="small"
+                    placeholder="Description"
+                    onChange={handleDescriptionChange}
+                    value={description}></TextField>
                 
                 <TextField 
                     label="Amount"
                     style={{marginTop:20}}
-                    defaultValue="0.00"></TextField>
+                    defaultValue="0.00"
+                    value={amount}
+                    placeholder="Amount"
+                    onChange={handleAmountChange}></TextField>
 
                 <MuiPickersUtilsProvider utils={DateFnsUtils} >
                     <Grid container justify="space-around" >
                         <KeyboardDatePicker
-                        color="primary"
+                        color="secondary"
                         variant="inline"
                         format="MM/dd/yyyy"
                         style={{
@@ -138,7 +154,7 @@ const TransactionDrawer = (props) => {
                         id="date-picker-inline"
                         label="Transaction Date"
                         value={date}
-                        
+                        defaultValue={new Date(Date.now())}
                         onChange={handleDateChange}
                         KeyboardButtonProps={{
                             'aria-label': 'change date',
@@ -146,6 +162,7 @@ const TransactionDrawer = (props) => {
                         />
                     </Grid>
                 </MuiPickersUtilsProvider>
+                <Button style={{marginTop:20}}>Add Transaction</Button>
             </div>
         </div>
     )

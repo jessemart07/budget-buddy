@@ -12,4 +12,12 @@
     flex-direction: row;
     justify-content: flex-end;
 }
+.row{
+    margin-right: "5px";
+    margin-left: "5px";
+}
+.row:hover{
+    background-color: #e7f0f0;
+    cursor: pointer;
+}
 
