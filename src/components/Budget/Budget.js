@@ -106,7 +106,7 @@ const data = [
             item1:{
                 name:"FNB Savings",
                 description: "Investing my millions",
-                amount: 500,
+                amount: 700,
                 date: "02 July"
             },
         }

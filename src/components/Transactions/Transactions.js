@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core';
 import classes from './Transactions.module.css';
 import Table from '@material-ui/core/Table';
@@ -11,8 +11,23 @@ import Paper from '@material-ui/core/Paper';
 import CircleButton from '../CircleButton/CircleButton';
 import Fab from '@material-ui/core/Fab';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
+import TransactionDrawer from './TransactionsDrawer/TransactionsDrawer';
+import Drawer from '@material-ui/core/Drawer';
+
 
 const useStyles = makeStyles((theme) => ({
+    Menu: {
+        color: '#a3c6c4',
+        zIndex: 5, 
+        border: '1px solid #a3c6c4',
+        borderRadius: '3px', 
+        marginRight: '10px',
+        height: '40px',
+        width: '40px'
+    },
+    list: {
+        width: 250
+    },
     container:{
         fontFamily: "'Montserrat' sans-serif",
         padding:10,
@@ -104,7 +119,7 @@ const data = [
             item1:{
                 name:"FNB Savings",
                 description: "Investing my millions",
-                amount: 500,
+                amount: 700,
                 date: new Date("2020-07-02")
             },
         }
@@ -120,6 +135,8 @@ const Transactions = () => {
     const styles = useStyles();
     let tableRow;
     let transactions=[];
+    let [isOpen, setIsOpen] = useState(false);
+    
     data.map(row => {
         const category = row.category;
         if(row.items != null){
@@ -131,6 +148,11 @@ const Transactions = () => {
             }
         )}
     })
+
+    const toggleDrawer = (status) => (event) => {
+        setIsOpen(status);
+    }
+    
     const sortedTranasctions = transactions.sort((a,b) => b.date - a.date)
     const ConvertMonth = (month) => {
         switch(month){
@@ -200,7 +222,7 @@ const Transactions = () => {
                                         <TableCell className={styles.cell} component="th" scope={row}>{cat}</TableCell>
                                         <TableCell className={styles.cell} >{row.description}</TableCell>
                                         <TableCell className={styles.cell} >{day + " " + month}</TableCell>
-                                        <TableCell className={styles.cell} >{Number.parseFloat(row.amount).toFixed(2)}</TableCell>
+                                        <TableCell className={styles.cell} >R{Number.parseFloat(row.amount).toFixed(2)}</TableCell>
                                     </TableRow>
                                 )
                             }
@@ -213,9 +235,13 @@ const Transactions = () => {
             <Fab 
             color="primary" 
             aria-label="add" 
-            className={styles.fab}>
-                <AddRoundedIcon/>
+            className={styles.fab}
+            onClick={toggleDrawer(true)}>
+                <AddRoundedIcon />
             </Fab>
+            <Drawer anchor="right" open={isOpen} onClose={toggleDrawer(false)}>
+                <TransactionDrawer/>
+            </Drawer>
         </div>
         </React.Fragment>
     )
