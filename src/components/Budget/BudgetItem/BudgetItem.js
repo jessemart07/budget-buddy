@@ -11,6 +11,14 @@ import TableBody from '@material-ui/core/TableBody';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import Drawer from '@material-ui/core/Drawer';
 import EditDrawer from '../BudgetEditDrawer/BudgetEditDrawer';
+import DeleteIcon from '@material-ui/icons/Delete';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import Button from '@material-ui/core/Button';
+
 const useStyles = makeStyles(() => ({
     container:{
         fontFamily: "'Montserrat' sans-serif",
@@ -46,7 +54,11 @@ const BudgetItem = (props) => {
 
     let [expand, setExpand] = useState(false);
     let [editOpen, setEditOpen] = useState(false);
+    let [dialogOpen, setDialogOpen] = useState(false);
 
+    const handleDialog = (status) => (event) => {
+        setDialogOpen(status);
+    }
     const ToggleEditDrawer = (status) => (event) => {
         setEditOpen(status);
     }
@@ -75,11 +87,18 @@ const BudgetItem = (props) => {
     let editBtn = null;
     if(props.edit){
         editBtn = (
-            <Tooltip title="Edit Category" placement="left">
-                <IconButton className={styles.IconButton} onClick={ToggleEditDrawer(true)}>
-                    <CreateRoundedIcon className={styles.Icon}/>
-                </IconButton>
-            </Tooltip>
+            <React.Fragment>
+                <Tooltip title="Delete Category" placement="left">
+                <IconButton className={styles.IconButton} onClick={handleDialog(true)}>
+                        <DeleteIcon style={{color:"#e34c4c"}} className={styles.Icon}/>
+                    </IconButton>
+                </Tooltip>
+                <Tooltip title="Edit Category" placement="left">
+                    <IconButton className={styles.IconButton} onClick={ToggleEditDrawer(true)}>
+                        <CreateRoundedIcon className={styles.Icon}/>
+                    </IconButton>
+                </Tooltip>
+            </React.Fragment>
         )
     }
     
@@ -117,6 +136,26 @@ const BudgetItem = (props) => {
                         actual={Number.parseFloat(props.actual).toFixed(2)}
                         budget={Number.parseFloat(props.budget).toFixed(2)}></EditDrawer>
                 </Drawer>
+                <Dialog 
+                open={dialogOpen}
+                onClose={handleDialog(false)}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description">
+                    <DialogTitle d="alert-dialog-title">{"Are you sure you want to delete this category?"}</DialogTitle>
+                    <DialogContent>
+                        <DialogContentText id="alert-dialog-description">
+                            If you delete this category it will be deleted permanently
+                        </DialogContentText>
+                    </DialogContent>
+                    <DialogActions>
+                    <Button onClick={handleDialog(false)} >
+                        Yes, Delete
+                    </Button>
+                    <Button onClick={handleDialog(false)}  autoFocus>
+                        Cancel
+                    </Button>
+                    </DialogActions>
+                </Dialog>
             </React.Fragment>
     )
 }

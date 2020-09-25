@@ -9,7 +9,7 @@ import DateFnsUtils from '@date-io/date-fns';
 import Grid from '@material-ui/core/Grid';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
-import CloseIcon from '@material-ui/icons/Close';
+
 import classes from './EditTransactionsDrawer.module.css';
 const TransactionDrawer = (props) => {
     console.log(props.values);
@@ -201,8 +201,23 @@ const TransactionDrawer = (props) => {
                             </ThemeProvider>
                         </Grid>
                     </MuiPickersUtilsProvider>
-                
-                <Button variant="contained" color="secondary" style={{marginTop:20}}>Edit Transaction</Button>
+                <div className={classes.btnContainer}>
+                    <Button 
+                        variant="contained" 
+                        color="secondary" 
+                        style={{
+                            marginTop:5
+                        }}
+                        onClick={() => props.function()}>Done</Button>
+                    <Button 
+                        color="danger"
+                        style={{
+                            marginTop:5,
+                            marginLeft:20,
+                            color:"#ea7575"
+                        }}
+                        onClick={() => props.function()}>Delete</Button>
+                </div>
             </div>
         </div>
     )

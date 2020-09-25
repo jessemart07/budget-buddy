@@ -6,14 +6,24 @@ const EditBudget = (props) => {
     return(
         <div className={classes.EditDrawer}>
             <TextField 
-                value={props.category}></TextField>
+                value={props.category}
+                style={{
+                    width:"80%",
+                    marginTop:20
+                }}></TextField>
             <TextField 
                 value={props.budget}
-                style={{marginTop:20}}></TextField>
+                style={{
+                    width:"80%",
+                    marginTop:20
+                }}></TextField>
             <Button
                 variant="contained"
                 color="secondary"
-                style={{marginTop:20}}>Edit Category</Button>
+                style={{
+                    width:"80%",
+                    marginTop:20
+                }}>Done</Button>
         </div>
     )
 }

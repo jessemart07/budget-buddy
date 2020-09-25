@@ -41,7 +41,7 @@ const BudgetAddDrawer = () => {
                 style={{
                     width:"80%",
                     marginTop:20
-                }}>Add Category</Button>
+                }}>Done</Button>
         </div>
     )
 }

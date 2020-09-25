@@ -10,8 +10,9 @@ import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
 import Drawer from '@material-ui/core/Drawer';
 import BudgetAddDrawer from './BudgetAddDrawer/BudgetAddDrawer';
 import { useState } from 'react';
-import Fab from '@material-ui/core/Fab';
+// import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
+import SaveRoundedIcon from '@material-ui/icons/SaveRounded';
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -171,7 +172,7 @@ const Budget = () => {
                             edit={editBtn}></BudgetItem>
                     )
                 })}
-                {editBtn ? <Button style={{marginTop:20}} variant="contained" color="secondary" onClick={ToggleEditButton(false)}>Save</Button> : null}
+                {editBtn ? <Button style={{marginTop:20}} startIcon={<SaveRoundedIcon/> } variant="contained" color="secondary" onClick={ToggleEditButton(false)}>Save</Button> : null}
                 
             </div>
             {/* <Tooltip title="Add Category" placement="top">
@@ -207,10 +208,7 @@ const Budget = () => {
             <Drawer anchor="right" open={addOpen} onClose={ToggleAddDrawer(false)}> 
                 <BudgetAddDrawer ></BudgetAddDrawer>
             </Drawer>
-
-            
         </React.Fragment>
-        
     )
 }
 

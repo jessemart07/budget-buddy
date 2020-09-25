@@ -161,7 +161,7 @@ const TransactionDrawer = (props) => {
                         />
                     </Grid>
                 </MuiPickersUtilsProvider>
-                <Button variant="contained" color="secondary" style={{marginTop:20}}>Add Transaction</Button>
+                <Button variant="contained" color="secondary" style={{marginTop:20}}>Done</Button>
             </div>
         </div>
     )

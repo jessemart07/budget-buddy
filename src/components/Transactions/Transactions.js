@@ -8,7 +8,6 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import CircleButton from '../CircleButton/CircleButton';
 import Fab from '@material-ui/core/Fab';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import EditTransactionDrawer from './EditTransactionsDrawer/EditTransactionsDrawer';
@@ -134,7 +133,7 @@ const data = [
 
 const Transactions = () => {
     const styles = useStyles();
-    let tableRow;
+   
     let transactions=[];
     let [AddOpen, setAddOpen] = useState(false);
     let [EditOpen, setEditOpen] = useState(false);
@@ -146,11 +145,11 @@ const Transactions = () => {
     })
     
     data.map(row => {
-        const category = row.category;
+        
         if(row.items != null){
         Object.keys(row.items).map(itemKey => {
                 transactions.push({
-                    category: category,
+                    category: row.category,
                     ...row.items[itemKey]
                 });
             }
@@ -177,43 +176,43 @@ const Transactions = () => {
         switch(month){
             case(1):
                 return "Jan";
-                break;
+                
             case(2):
                 return "Feb";
-                break;
+                
             case(3):
                 return "Mar";
-                break;
+                
             case(4):
                 return "Apr";
-                break;
+                
             case(5):
                 return "May";
-                break;
+                
             case(6):
                 return "Jun";
-                break;
+                
             case(7):
                 return "Jul";
-                break;
+                
             case(8):
                 return "Aug";
-                break;
+                
             case(9):
                 return "Sep";
-                break;
+                
             case(10):
                 return "Oct";
-                break;
+                
             case(11):
                 return "Nov";
-                break;
+                
             case(12):
                 return "Dec";
-                break;
+                
             default:
                 return "Month";
-                break;
+                
         }
     }
 
@@ -260,7 +259,7 @@ const Transactions = () => {
                 <AddTransactionDrawer edit={true} />
             </Drawer>
             <Drawer anchor="right" open={EditOpen} onClose={CloseEditDrawer(false)}>
-                <EditTransactionDrawer edit={false} values={values}/>
+                <EditTransactionDrawer function={CloseEditDrawer(false)} values={values}/>
             </Drawer>
         </div>
         </React.Fragment>

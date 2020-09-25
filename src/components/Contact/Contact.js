@@ -7,7 +7,7 @@ const Contact = () => {
     return(
         <div title="contact" id="contact" className={classes.Contact}>
             <h5>Contact</h5>
-            <img className={classes.ContactImg} src={ContactImg} alt="Contact image"/>
+            <img className={classes.ContactImg} src={ContactImg} alt="Contact"/>
             <div className={classes.ContactBody}>
                 <div className={classes.Side}>
                     <p>
