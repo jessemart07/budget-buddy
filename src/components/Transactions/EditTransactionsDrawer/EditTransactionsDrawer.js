@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Button, InputLabel, MenuItem, TextField } from '@material-ui/core';
+import { Button, InputLabel, MenuItem, TextField, createMuiTheme, ThemeProvider} from '@material-ui/core';
+import lightBlue from "@material-ui/core/colors/lightBlue";
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker
@@ -34,6 +35,42 @@ const TransactionDrawer = (props) => {
     const handleDescriptionChange = (event) => {
         setDescription(event.target.value);
     };
+
+    const materialTheme = createMuiTheme({
+        overrides: {
+          MuiPickersToolbar: {
+            toolbar: {
+              backgroundColor: lightBlue.A200,
+            },
+          },
+          MuiPickersCalendarHeader: {
+            switchHeader: {
+              // backgroundColor: lightBlue.A200,
+              // color: "white",
+            },
+          },
+          MuiPickersDay: {
+            day: {
+              color: lightBlue.A700,
+            },
+            daySelected: {
+              backgroundColor: lightBlue["400"],
+            },
+            dayDisabled: {
+              color: lightBlue["100"],
+            },
+            current: {
+              color: lightBlue["900"],
+            },
+          },
+          MuiPickersModal: {
+            dialogAction: {
+              color: lightBlue["400"],
+            },
+          },
+        },
+      });
+
     const data = [
         {
             category:"Food", 
@@ -140,29 +177,32 @@ const TransactionDrawer = (props) => {
                     style={{marginTop:20}}
                     value={amount}
                     onChange={handleAmountChange}></TextField>
-
-                <MuiPickersUtilsProvider utils={DateFnsUtils} >
-                    <Grid container justify="space-around" >
-                        <KeyboardDatePicker
-                        color="secondary"
-                        variant="inline"
-                        format="MM/dd/yyyy"
-                        style={{
-                            marginTop:20,
-                            width:"100%"
-                        }}
-                        id="date-picker-inline"
-                        label="Transaction Date"
-                        value={date}
-                        
-                        onChange={handleDateChange}
-                        KeyboardButtonProps={{
-                            'aria-label': 'change date',
-                        }}
-                        />
-                    </Grid>
-                </MuiPickersUtilsProvider>
-                <Button style={{marginTop:20}}>Edit Transaction</Button>
+                
+                    <MuiPickersUtilsProvider utils={DateFnsUtils} >
+                        <Grid container justify="space-around" >
+                        <ThemeProvider theme={materialTheme}>
+                            <KeyboardDatePicker
+                            
+                            variant="inline"
+                            format="MM/dd/yyyy"
+                            style={{
+                                marginTop:20,
+                                width:"100%"
+                            }}
+                            id="date-picker-inline"
+                            label="Transaction Date"
+                            value={date}
+                            
+                            onChange={handleDateChange}
+                            KeyboardButtonProps={{
+                                'aria-label': 'change date',
+                            }}
+                            />
+                            </ThemeProvider>
+                        </Grid>
+                    </MuiPickersUtilsProvider>
+                
+                <Button variant="contained" color="secondary" style={{marginTop:20}}>Edit Transaction</Button>
             </div>
         </div>
     )

@@ -1,6 +1,6 @@
 import React from 'react';
 import classes from './ItemDetails.module.css';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, TextField } from '@material-ui/core';
 import TableCell from '@material-ui/core/TableCell';
 import TableRow from '@material-ui/core/TableRow';
 
@@ -20,7 +20,7 @@ const ItemDetails = (props) => {
 
     return(          
         <TableRow className={styles.row} key={props.description}>
-            <TableCell className={styles.cell} component="th" >{props.description}</TableCell>
+            <TableCell className={styles.cell} component="th">{props.description}</TableCell>
             <TableCell className={styles.cell} align="right">R{Number.parseFloat(props.amount).toFixed(2)}</TableCell>
         </TableRow>
     )

@@ -1,5 +1,7 @@
 .BudgetItem{
-    width:98%;
+    width:100%;
+    display: flex;
+    flex-direction: row;
 }
 .Bar{
     color:#345349; 
@@ -49,4 +51,15 @@
     font-size: 20px;
     font-weight: 400;
     z-index: 2;
+}
+.editCategory{
+    margin-left: 20px;
+}
+.IconButton{
+    background-color:#202a2c;
+    margin-right:10px;
+    z-index: 10;
+}
+.Icon{
+    color:#fff;
 }

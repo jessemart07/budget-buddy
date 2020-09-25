@@ -8,7 +8,6 @@ import DateFnsUtils from '@date-io/date-fns';
 import Grid from '@material-ui/core/Grid';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
-import CloseIcon from '@material-ui/icons/Close';
 import classes from './AddTransactionsDrawer.module.css';
 const TransactionDrawer = (props) => {
     
@@ -162,7 +161,7 @@ const TransactionDrawer = (props) => {
                         />
                     </Grid>
                 </MuiPickersUtilsProvider>
-                <Button style={{marginTop:20}}>Add Transaction</Button>
+                <Button variant="contained" color="secondary" style={{marginTop:20}}>Add Transaction</Button>
             </div>
         </div>
     )

@@ -1,5 +1,5 @@
 import React from 'react';
-import { makeStyles } from '@material-ui/core';
+import { makeStyles, TextField, Tooltip } from '@material-ui/core';
 import classes from './Budget.module.css';
 import BudgetItem from '../Budget/BudgetItem/BudgetItem';
 import SpeedDial from '@material-ui/lab/SpeedDial';
@@ -7,7 +7,11 @@ import SpeedDialAction from '@material-ui/lab/SpeedDialAction';
 import AddRoundedIcon from '@material-ui/icons/AddRounded';
 import CreateRoundedIcon from '@material-ui/icons/CreateRounded';
 import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
+import Drawer from '@material-ui/core/Drawer';
+import BudgetAddDrawer from './BudgetAddDrawer/BudgetAddDrawer';
 import { useState } from 'react';
+import Fab from '@material-ui/core/Fab';
+import Button from '@material-ui/core/Button';
 
 const useStyles = makeStyles((theme) => ({
     root:{
@@ -42,8 +46,12 @@ const useStyles = makeStyles((theme) => ({
         right:0,
         bottom:0,
         marginRight:"-60px",
+    },
+    fab:{
+        
     }
 }))
+
 const data = [
     {
         category:"Food", 
@@ -119,14 +127,26 @@ const data = [
 
 const Budget = () => {
     const styles = useStyles();
-    const [open, SetOpen] = useState(false);
+    const [open, setOpen] = useState(false);
+    let [addOpen, setAddOpen] = useState(false);
+    let [editBtn, SetEditBtn] = useState(false);
 
-    const HandleOpen = () => {
-        SetOpen(true);
+    const ToggleAddDrawer = (status) => (event) => {
+        setOpen(false);
+        setAddOpen(status);
+    }
+
+    const ToggleEditButton = (status) => (event) => {
+        setOpen(false);
+        SetEditBtn(status);
     }
 
     const HandleClose = () => {
-        SetOpen(false);
+        setOpen(false);
+    }
+
+    const HandleOpen = () => {
+        setOpen(true);
     }
 
     return(
@@ -134,6 +154,7 @@ const Budget = () => {
             <div className={classes.Budget}>
                 {data.map(row => {
                     let actual = 0;
+                    
                     if(row.items != null){
                         for(const item in row.items){
                             actual += Number.parseFloat(row.items[item].amount);
@@ -142,15 +163,27 @@ const Budget = () => {
                     
                     return(
                         <BudgetItem 
-                        key={row.category}
-                        category={row.category}
-                        actual={actual}
-                        budget={Number.parseFloat(row.budget).toFixed(2)}
-                        items={row.items}></BudgetItem>
+                            key={row.category}
+                            category={row.category}
+                            actual={actual}
+                            budget={Number.parseFloat(row.budget).toFixed(2)}
+                            items={row.items}
+                            edit={editBtn}></BudgetItem>
                     )
                 })}
+                {editBtn ? <Button style={{marginTop:20}} variant="contained" color="secondary" onClick={ToggleEditButton(false)}>Save</Button> : null}
+                
             </div>
-
+            {/* <Tooltip title="Add Category" placement="top">
+                <Fab 
+                color="primary" 
+                aria-label="add" 
+                className={styles.fab}
+                onClick={ToggleAddDrawer(true)}>
+                    <AddRoundedIcon />
+                </Fab>
+            </Tooltip> */}
+            
             <SpeedDial
                 ariaLabel="Menu-speed-dial"
                 icon={<MoreVertRoundedIcon/>}
@@ -164,13 +197,18 @@ const Budget = () => {
                     key="edit"
                     tooltipTitle="edit category"
                     icon={<CreateRoundedIcon/>}
-                    onClick={HandleClose}></SpeedDialAction>
+                    onClick={ToggleEditButton(true)}></SpeedDialAction>
                 <SpeedDialAction
                     key="add"
                     tooltipTitle="add category"
                     icon={<AddRoundedIcon/>}
-                    onClick={HandleClose}></SpeedDialAction>
+                    onClick={ToggleAddDrawer(true)}></SpeedDialAction>
             </SpeedDial>
+            <Drawer anchor="right" open={addOpen} onClose={ToggleAddDrawer(false)}> 
+                <BudgetAddDrawer ></BudgetAddDrawer>
+            </Drawer>
+
+            
         </React.Fragment>
         
     )
