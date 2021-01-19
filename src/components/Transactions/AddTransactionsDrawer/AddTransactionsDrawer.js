@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Button, InputLabel, MenuItem, TextField } from '@material-ui/core';
+import { Button, InputLabel, MenuItem, TextField, Typography } from '@material-ui/core';
 import {
     MuiPickersUtilsProvider,
     KeyboardDatePicker
@@ -9,6 +9,8 @@ import Grid from '@material-ui/core/Grid';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import classes from './AddTransactionsDrawer.module.css';
+import BtnContainer from '../../ButtonContainer/ButtonContainer';
+import DrawerForm from '../../DrawerForm/DrawerForm';
 const TransactionDrawer = (props) => {
     
     let [description, setDescription] = useState()
@@ -31,6 +33,10 @@ const TransactionDrawer = (props) => {
     const handleDescriptionChange = (event) => {
         setDescription(event.target.value);
     };
+    
+    const onSubmit = (event) => {
+        props.function();
+    }
 
     const data = [
         {
@@ -106,8 +112,9 @@ const TransactionDrawer = (props) => {
     ];
 
     return(
-        <div className={classes.list}>
+        <DrawerForm>
             <div className={classes.form}>
+                <Typography variant="h5" style={{textAlign:'center', marginBottom:20,  color:'secondary'}}>Add Transaction</Typography>
                 <FormControl >
                     <InputLabel id="category">Category</InputLabel>
                     <Select
@@ -161,9 +168,24 @@ const TransactionDrawer = (props) => {
                         />
                     </Grid>
                 </MuiPickersUtilsProvider>
-                <Button variant="contained" color="secondary" style={{marginTop:20}}>Done</Button>
+                <BtnContainer>
+                    <Button 
+                        variant="contained" 
+                        color="secondary" 
+                        style={{marginTop:20}}
+                        onClick={onSubmit}>Done</Button>
+                    <Button 
+                        color="default"
+                        style={{
+                            marginTop:20,
+                            marginLeft:20,
+                            color:"secondary",
+                        }}
+                        onClick={props.function}>Cancel</Button>
+                </BtnContainer>
+                
             </div>
-        </div>
+        </DrawerForm>
     )
 }
 

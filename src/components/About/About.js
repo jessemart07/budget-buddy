@@ -4,10 +4,9 @@ import SideImage from '../../assets/img/Splash_bg.png';
 import Cellphone from '../../assets/img/Cellphone_placeholder.png';
 import InfoItems from './InfoItems/InfoItems';
 import CornerImg from '../../assets/img/Bottom_corner_image.png';
-import { useRef } from 'react';
+
 
 const About = () => {
-    const myRef = useRef(null);
     return(
         <div  title="about" id="about" className={classes.About}>
             <div className={classes.Heading}>

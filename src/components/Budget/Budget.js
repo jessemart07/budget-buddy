@@ -10,7 +10,7 @@ import MoreVertRoundedIcon from '@material-ui/icons/MoreVertRounded';
 import Drawer from '@material-ui/core/Drawer';
 import BudgetAddDrawer from './BudgetAddDrawer/BudgetAddDrawer';
 import { useState } from 'react';
-// import Fab from '@material-ui/core/Fab';
+import Fab from '@material-ui/core/Fab';
 import Button from '@material-ui/core/Button';
 import SaveRoundedIcon from '@material-ui/icons/SaveRounded';
 
@@ -133,6 +133,7 @@ const Budget = () => {
     let [editBtn, SetEditBtn] = useState(false);
 
     const ToggleAddDrawer = (status) => (event) => {
+        console.log("Called " + status);
         setOpen(false);
         setAddOpen(status);
     }
@@ -175,7 +176,7 @@ const Budget = () => {
                 {editBtn ? <Button style={{marginTop:20}} startIcon={<SaveRoundedIcon/> } variant="contained" color="secondary" onClick={ToggleEditButton(false)}>Save</Button> : null}
                 
             </div>
-            {/* <Tooltip title="Add Category" placement="top">
+            <Tooltip title="Add Category" placement="top" className={styles.SpeedDial}>
                 <Fab 
                 color="primary" 
                 aria-label="add" 
@@ -183,9 +184,9 @@ const Budget = () => {
                 onClick={ToggleAddDrawer(true)}>
                     <AddRoundedIcon />
                 </Fab>
-            </Tooltip> */}
+            </Tooltip>
             
-            <SpeedDial
+            {/* <SpeedDial
                 ariaLabel="Menu-speed-dial"
                 icon={<MoreVertRoundedIcon/>}
                 onOpen={HandleOpen}
@@ -204,9 +205,9 @@ const Budget = () => {
                     tooltipTitle="add category"
                     icon={<AddRoundedIcon/>}
                     onClick={ToggleAddDrawer(true)}></SpeedDialAction>
-            </SpeedDial>
+            </SpeedDial> */}
             <Drawer anchor="right" open={addOpen} onClose={ToggleAddDrawer(false)}> 
-                <BudgetAddDrawer ></BudgetAddDrawer>
+                <BudgetAddDrawer function={ToggleAddDrawer(false)}/>
             </Drawer>
         </React.Fragment>
     )

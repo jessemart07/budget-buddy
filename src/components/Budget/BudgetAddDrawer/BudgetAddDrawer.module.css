@@ -1,8 +1,8 @@
-.AddForm{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    height:50%;
-    width: 300px;
+.AddForm {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 50%;
+  width: 300px;
+  padding-top: 50px;
 }
-

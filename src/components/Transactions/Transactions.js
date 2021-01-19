@@ -166,9 +166,7 @@ const Transactions = () => {
 
     const editClick = (data) => (event) => {
         setEditOpen(true);
-        setValues({
-            data
-        })
+        setValues(data);
     } 
     
     const sortedTranasctions = transactions.sort((a,b) => b.date - a.date)
@@ -256,10 +254,10 @@ const Transactions = () => {
                 <AddRoundedIcon />
             </Fab>
             <Drawer anchor="right" open={AddOpen} onClose={toggleAddDrawer(false)}>
-                <AddTransactionDrawer edit={true} />
+                <AddTransactionDrawer function={toggleAddDrawer(false)}/>
             </Drawer>
             <Drawer anchor="right" open={EditOpen} onClose={CloseEditDrawer(false)}>
-                <EditTransactionDrawer function={CloseEditDrawer(false)} values={values}/>
+                <EditTransactionDrawer change={setValues} function={CloseEditDrawer(false)} values={values}/>
             </Drawer>
         </div>
         </React.Fragment>
