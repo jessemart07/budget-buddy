@@ -25,7 +25,9 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DrawerForm from "../../DrawerForm/DrawerForm";
 import BtnContainer from "../../ButtonContainer/ButtonContainer";
 import classes from "./EditTransactionsDrawer.module.css";
+import axios from "../../../axios";
 const TransactionDrawer = (props) => {
+  console.log(props.values);
   let [description, setDescription] = useState(props.values.description);
   let [category, setCategory] = useState(props.values.category);
   let [date, setDate] = useState(props.values.date);

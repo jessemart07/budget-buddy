@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { makeStyles, Tooltip } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import classes from "./Budget.module.css";
@@ -6,8 +6,8 @@ import BudgetItem from "../Budget/BudgetItem/BudgetItem";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import Drawer from "@material-ui/core/Drawer";
 import BudgetAddDrawer from "./BudgetAddDrawer/BudgetAddDrawer";
+import axios from "../../axios";
 import Grow from "@material-ui/core/Grow";
-import { useState } from "react";
 import Fab from "@material-ui/core/Fab";
 
 const useStyles = makeStyles((theme) => ({
@@ -47,12 +47,13 @@ const useStyles = makeStyles((theme) => ({
   fab: {},
 }));
 
-const Budget = () => {
+const Budget = (props) => {
   const styles = useStyles();
   const [open, setOpen] = useState(false);
   let [addOpen, setAddOpen] = useState(false);
-  let [editBtn, SetEditBtn] = useState(false);
+  let [editOpen, SetEditOpen] = useState(false);
   let [dialogOpen, setDialogOpen] = useState(false);
+
   const [transactions, setTransactions] = useState([
     {
       id: 0,
@@ -112,33 +113,7 @@ const Budget = () => {
     },
   ]);
 
-  let [categories, setCategories] = useState([
-    {
-      id: 0,
-      category: "Food",
-      budget: 1000,
-    },
-    {
-      id: 1,
-      category: "Clothing",
-      budget: 2000,
-    },
-    {
-      id: 2,
-      category: "Internet/Telephone",
-      budget: 500,
-    },
-    {
-      id: 3,
-      category: "Investments",
-      budget: 500,
-    },
-    {
-      id: 4,
-      category: "Health and Medical",
-      budget: 2000,
-    },
-  ]);
+  let [categories, setCategories] = useState(props.categories);
 
   let categoryArr = [];
 
@@ -159,12 +134,15 @@ const Budget = () => {
           name: name,
           amount: amount,
           date: date,
+          category: obj.category,
         });
       }
     });
-
     categoryArr.push(data);
   });
+  const ToggleEditDrawer = (status) => (event) => {
+    SetEditOpen(status);
+  };
 
   const EditCategory = (data) => {
     const id = categories.findIndex((element) => element.id === data.id);
@@ -190,14 +168,72 @@ const Budget = () => {
     newArr[id] = { ...data };
 
     setCategories(newArr);
+
+    let firebaseID = "";
+
+    axios
+      .get("budgets/categories.json")
+      .then((res) => {
+        Object.keys(res.data).map((keys) => {
+          if (res.data[keys].id === data.id) {
+            firebaseID = keys;
+            return;
+          }
+        });
+        axios
+          .put("budgets/categories/" + firebaseID + ".json", data)
+          .then((res) => {
+            const id = categories.findIndex(
+              (element) => element.id === data.id
+            );
+
+            const Catid = categoryArr.findIndex(
+              (element) => element.id === data.id
+            );
+
+            let { transactions: items } = categoryArr[Catid];
+
+            let idArr = [];
+
+            items.map((item) => {
+              idArr.push(item.id);
+            });
+
+            let newTransactionsArr = [...transactions];
+
+            idArr.map((id) => {
+              newTransactionsArr[id].category = data.category;
+            });
+
+            let newArr = [...categories];
+
+            newArr[id] = { ...data };
+
+            setCategories(newArr);
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      })
+      .catch();
   };
 
   const AddCategory = (data) => {
-    let newArr = [...categories];
+    axios
+      .post("budgets/categories.json", data)
+      .then((response) => {
+        console.log(response);
 
-    newArr.push({ ...data });
-    console.log(newArr);
-    setCategories(newArr);
+        let newArr = [...categories];
+        newArr.push({ ...data });
+
+        setCategories(newArr);
+        console.log(categories);
+        //checkBudgetItems();
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
 
   const DeleteCategory = (id) => {
@@ -208,11 +244,29 @@ const Budget = () => {
     if (items.length > 0) {
       handleDialog(true);
     } else {
-      let newArr = [...categories];
-      console.log(id);
-      newArr.splice(id, 1);
+      let firebaseID = "";
+      axios
+        .get("/budgets/categories.json")
+        .then((response) => {
+          Object.keys(response.data).map((keys) => {
+            if (response.data[keys].id === id) {
+              firebaseID = keys;
+              return;
+            }
+          });
+          axios
+            .delete("/budgets/categories/" + firebaseID + ".json")
+            .then((response) => {
+              let newArr = [...categories];
+              console.log(id);
+              newArr.splice(id, 1);
 
-      setCategories(newArr);
+              setCategories(newArr);
+              //checkBudgetItems();
+            })
+            .catch((error) => console.log(error));
+        })
+        .catch((error) => console.log(error));
     }
   };
 
@@ -225,33 +279,38 @@ const Budget = () => {
     setDialogOpen(status);
   };
 
+  let budgetItems = "";
+
+  if (categories.length > 0) {
+    budgetItems = categoryArr.map((row) => {
+      let actual = 0;
+      if (row.transactions != null) {
+        row.transactions.map((transaction) => {
+          actual += Number.parseFloat(transaction.amount);
+        });
+      }
+
+      return (
+        <BudgetItem
+          editCategory={EditCategory}
+          delete={DeleteCategory}
+          key={row.category}
+          category={row.category}
+          id={row.id}
+          actual={actual}
+          budget={Number.parseFloat(row.budget).toFixed(2)}
+          row={row.transactions}
+          categories={categories}
+        ></BudgetItem>
+      );
+    });
+  } else {
+    budgetItems = "You have no categories yet";
+  }
+
   return (
     <React.Fragment>
-      <div className={classes.Budget}>
-        {categoryArr.map((row) => {
-          let actual = 0;
-
-          if (row.transactions != null) {
-            row.transactions.map((transaction) => {
-              actual += Number.parseFloat(transaction.amount);
-            });
-          }
-
-          return (
-            <BudgetItem
-              editCategory={EditCategory}
-              delete={DeleteCategory}
-              key={row.category}
-              category={row.category}
-              id={row.id}
-              actual={actual}
-              budget={Number.parseFloat(row.budget).toFixed(2)}
-              row={row.transactions}
-              edit={editBtn}
-            ></BudgetItem>
-          );
-        })}
-      </div>
+      <div className={classes.Budget}>{budgetItems}</div>
       <Tooltip
         title="Add Category"
         placement="top"
@@ -273,13 +332,15 @@ const Budget = () => {
           </Alert>
         </Grow>
       ) : null}
+      {/* this drawer is for adding a category */}
       <Drawer anchor="right" open={addOpen} onClose={ToggleAddDrawer(false)}>
         <BudgetAddDrawer
           function={ToggleAddDrawer(false)}
           add={AddCategory}
-          id={categories.length}
+          id={props.categories.length}
         />
       </Drawer>
+      {/* This drawer is for editing the transaction */}
     </React.Fragment>
   );
 };

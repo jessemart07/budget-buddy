@@ -6,13 +6,36 @@ import Tab from "@material-ui/core/Tab";
 import TabPanel from "../../utils/TabPanel/TabPanel";
 import Transactions from "../../components/Transactions/Transactions";
 import { Container } from "@material-ui/core";
-
+import axios from "../../axios";
 import classes from "./BudgetBuddy.module.css";
 
 class BudgetBuddy extends Component {
   state = {
     value: 0,
+    categories: null,
   };
+
+  componentDidMount() {
+    axios
+      .get("/budgets/categories.json")
+      .then((res) => {
+        let data = [];
+        Object.keys(res.data).map((key) => {
+          data.push(res.data[key]);
+        });
+        this.setState({
+          ...this.state,
+          categories: [...data],
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          ...this.state,
+          categories: [],
+        });
+        console.log(err);
+      });
+  }
 
   handleChange = (event, newValue) => {
     this.setState({ value: newValue });
@@ -25,9 +48,9 @@ class BudgetBuddy extends Component {
     };
   };
   render() {
-    let body = <Budget></Budget>;
-    if (this.state.value === 1) {
-      body = <Transactions></Transactions>;
+    let body = "Fetching data";
+    if (this.state.categories) {
+      body = <Budget categories={this.state.categories}></Budget>;
     }
 
     return (
@@ -45,7 +68,7 @@ class BudgetBuddy extends Component {
           </Tabs>
         </Paper>
         <TabPanel value={this.state.value} index={0}>
-          <Budget></Budget>
+          {body}
         </TabPanel>
         <TabPanel value={this.state.value} index={1}>
           <Transactions></Transactions>

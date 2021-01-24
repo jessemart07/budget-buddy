@@ -15,12 +15,8 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import ItemDetails from "./ItemDetails/ItemDetails";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
-import CreateRoundedIcon from "@material-ui/icons/CreateRounded";
 import Drawer from "@material-ui/core/Drawer";
 import EditDrawer from "../BudgetEditDrawer/BudgetEditDrawer";
-import DeleteIcon from "@material-ui/icons/Delete";
-
-import Button from "@material-ui/core/Button";
 
 const useStyles = makeStyles(() => ({
   container: {
@@ -60,9 +56,14 @@ const BudgetItem = (props) => {
   );
   let [expand, setExpand] = useState(false);
   let [editOpen, setEditOpen] = useState(false);
+  let [editTransaction, setEditTransaction] = useState(false);
 
   const ToggleEditDrawer = (status) => (event) => {
     setEditOpen(status);
+  };
+
+  const ToggleEditTransactionDrawer = (status) => (event) => {
+    setEditTransaction(status);
   };
 
   const ToggleAccordion = () => (event) => {
@@ -79,6 +80,8 @@ const BudgetItem = (props) => {
           key={item.id}
           amount={item.amount}
           description={item.name}
+          info={item}
+          categoriesInfo={props.categories}
         />
       );
     });
