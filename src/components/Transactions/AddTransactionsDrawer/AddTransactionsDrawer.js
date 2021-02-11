@@ -81,7 +81,7 @@ const TransactionDrawer = (props) => {
 
   const onSubmit = (event) => {
     let data = {
-      id: props.count + 1,
+      id: props.count,
       category: category,
       name: name,
       description: description,

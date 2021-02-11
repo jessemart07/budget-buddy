@@ -8,14 +8,19 @@ import Transactions from "../../components/Transactions/Transactions";
 import { Container } from "@material-ui/core";
 import axios from "../../axios";
 import classes from "./BudgetBuddy.module.css";
-
+import Loader from "../../components/UI/Loader/Loader";
 class BudgetBuddy extends Component {
   state = {
     value: 0,
     categories: null,
+    transactions: null,
   };
 
   componentDidMount() {
+    this.fetchData();
+  }
+
+  fetchData = () => {
     axios
       .get("/budgets/categories.json")
       .then((res) => {
@@ -35,10 +40,85 @@ class BudgetBuddy extends Component {
         });
         console.log(err);
       });
-  }
+
+    axios
+      .get("budgets/transactions.json")
+      .then((res) => {
+        console.log(res.data);
+        let data = [];
+        Object.keys(res.data).map((key) => {
+          data.push(res.data[key]);
+        });
+        this.setState({
+          ...this.state,
+          transactions: [...data],
+        });
+      })
+      .catch((err) => {
+        this.setState({
+          ...this.state,
+          transactions: [],
+        });
+        console.log(err);
+      });
+  };
+
+  handleCategory = (newData, type) => {
+    switch (type) {
+      case "Add":
+        let newArr = [...this.state.categories];
+        newArr.push(newData);
+        this.setState({
+          ...this.state,
+          categories: newArr,
+        });
+        break;
+      case "Update":
+        this.setState({
+          ...this.state,
+          categories: newData,
+        });
+        break;
+      case "Delete":
+        this.setState({
+          ...this.state,
+          categories: newData,
+        });
+    }
+    console.log(this.state.categories);
+  };
+
+  handleTransactions = (newData, type) => {
+    let newArr = [...this.state.transactions];
+    switch (type) {
+      case "Add":
+        newArr.push(newData);
+        this.setState({
+          ...this.state,
+          transactions: newArr,
+        });
+        break;
+      case "Update":
+        this.setState({
+          ...this.state,
+          transactions: newData,
+        });
+        console.log(this.state.transactions);
+      case "Delete":
+        this.setState({
+          ...this.state,
+          transactions: newData,
+        });
+      default:
+        break;
+    }
+  };
 
   handleChange = (event, newValue) => {
-    this.setState({ value: newValue });
+    this.setState({
+      ...this.state,
+      value: newValue,
+    });
   };
 
   a11yProps = (index) => {
@@ -48,9 +128,28 @@ class BudgetBuddy extends Component {
     };
   };
   render() {
-    let body = "Fetching data";
-    if (this.state.categories) {
-      body = <Budget categories={this.state.categories}></Budget>;
+    let budget = <Loader></Loader>;
+    let transactions = <Loader></Loader>;
+    if (this.state.categories && this.state.transactions) {
+      budget = (
+        <Budget
+          functionChange={this.handleTransactions}
+          categoryChange={this.handleCategory}
+          transactions={this.state.transactions}
+          categories={this.state.categories}
+        ></Budget>
+      );
+    }
+
+    if (this.state.transactions) {
+      transactions = (
+        <Transactions
+          transactionChange={this.handleTransactions}
+          categoryChange={this.handleCategory}
+          transactions={this.state.transactions}
+          categories={this.state.categories}
+        ></Transactions>
+      );
     }
 
     return (
@@ -68,10 +167,10 @@ class BudgetBuddy extends Component {
           </Tabs>
         </Paper>
         <TabPanel value={this.state.value} index={0}>
-          {body}
+          {budget}
         </TabPanel>
         <TabPanel value={this.state.value} index={1}>
-          <Transactions></Transactions>
+          {transactions}
         </TabPanel>
       </div>
     );

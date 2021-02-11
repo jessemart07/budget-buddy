@@ -12,8 +12,9 @@ import Fab from "@material-ui/core/Fab";
 import AddRoundedIcon from "@material-ui/icons/AddRounded";
 import EditTransactionDrawer from "./EditTransactionsDrawer/EditTransactionsDrawer";
 import AddTransactionDrawer from "./AddTransactionsDrawer/AddTransactionsDrawer";
+import Loader from "../../components/UI/Loader/Loader";
 import Drawer from "@material-ui/core/Drawer";
-
+import axios from "../../axios";
 const useStyles = makeStyles((theme) => ({
   Menu: {
     color: "#a3c6c4",
@@ -55,170 +56,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const transactions = [
-  {
-    name: "Spur",
-    description: "A great meal at Spur",
-    amount: 500,
-    date: new Date("2020-07-26"),
-    category: "Food",
-  },
-  {
-    name: "Woolworths",
-    description: "Spent a lot on Gluten free stuff",
-    amount: 200,
-    date: new Date("2020-07-27"),
-    category: "Food",
-  },
-  {
-    name: "Mr.Price",
-    description: "Got some clothes at Mr.Price",
-    amount: 300,
-    date: new Date("2020-07-18"),
-    category: "Clothing",
-  },
-  {
-    name: "Woolworths",
-    description: "Bought a fancy jacket",
-    amount: 299,
-    date: new Date("2020-07-11"),
-    category: "Clothing",
-  },
-  {
-    name: "Vodacom",
-    description: "R29 airtime",
-    amount: 29,
-    date: new Date("2020-07-15"),
-    category: "Internet/Telephone",
-  },
-  {
-    name: "Fibre Telecoms",
-    description: "My monthly fast wifi",
-    amount: 300,
-    date: new Date("2020-07-01"),
-    category: "Internet/Telephone",
-  },
-  {
-    name: "FNB Savings",
-    description: "Investing my millions",
-    amount: 700,
-    date: new Date("2020-07-02"),
-    category: "Investments",
-  },
-];
-
-const categories = [
-  {
-    category: "Food",
-    budget: 1000,
-  },
-  {
-    category: "Clothing",
-    budget: 2000,
-  },
-  {
-    category: "Internet/Telephone",
-    budget: 500,
-  },
-  {
-    category: "Investments",
-    budget: 500,
-  },
-  {
-    category: "Health and Medical",
-    budget: 2000,
-  },
-];
-
-const Transactions = () => {
+const Transactions = (props) => {
   const styles = useStyles();
-  const [transactions, setTransactions] = useState([
-    {
-      id: 0,
-      name: "Spur",
-      description: "A great meal at Spur",
-      amount: 500,
-      date: new Date("2020-07-26"),
-      category: "Food",
-    },
-    {
-      id: 1,
-      name: "Woolworths",
-      description: "Spent a lot on Gluten free stuff",
-      amount: 200,
-      date: new Date("2020-07-27"),
-      category: "Food",
-    },
-    {
-      id: 2,
-      name: "Mr.Price",
-      description: "Got some clothes at Mr.Price",
-      amount: 300,
-      date: new Date("2020-07-18"),
-      category: "Clothing",
-    },
-    {
-      id: 3,
-      name: "Woolworths",
-      description: "Bought a fancy jacket",
-      amount: 299,
-      date: new Date("2020-07-11"),
-      category: "Clothing",
-    },
-    {
-      id: 4,
-      name: "Vodacom",
-      description: "R29 airtime",
-      amount: 29,
-      date: new Date("2020-07-15"),
-      category: "Internet/Telephone",
-    },
-    {
-      id: 5,
-      name: "Fibre Telecoms",
-      description: "My monthly fast wifi",
-      amount: 300,
-      date: new Date("2020-07-01"),
-      category: "Internet/Telephone",
-    },
-    {
-      id: 6,
-      name: "FNB Savings",
-      description: "Investing my millions",
-      amount: 700,
-      date: new Date("2020-07-02"),
-      category: "Investments",
-    },
-  ]);
-
-  let [categories, setCategories] = useState([
-    {
-      category: "Food",
-      budget: 1000,
-    },
-    {
-      category: "Clothing",
-      budget: 2000,
-    },
-    {
-      category: "Internet/Telephone",
-      budget: 500,
-    },
-    {
-      category: "Investments",
-      budget: 500,
-    },
-    {
-      category: "Health and Medical",
-      budget: 2000,
-    },
-  ]);
 
   useEffect(() => {
-    transactions.forEach((element) => {
-      ConvertMonth(element.date.getMonth());
+    props.transactions.forEach((element) => {
+      ConvertMonth(new Date(element.date).getMonth());
     });
-  }, [transactions]);
+  }, [props.transactions]);
 
   let [AddOpen, setAddOpen] = useState(false);
   let [EditOpen, setEditOpen] = useState(false);
@@ -229,6 +74,7 @@ const Transactions = () => {
     date: new Date(Date.now()),
     amount: "0.00",
   });
+  let [loading, setLoading] = useState(false);
 
   const toggleAddDrawer = (status) => (event) => {
     setAddOpen(status);
@@ -244,37 +90,112 @@ const Transactions = () => {
     setValues(data);
   };
 
+  const handleLoading = (status) => {
+    setLoading(status);
+  };
+
   const onTransactionAdd = (data) => {
-    let newArr = [...transactions];
+    let newArr = [...props.transactions];
 
     newArr.push(data);
 
-    setTransactions(newArr);
+    props.transactionChange(data, "Add");
+
+    axios
+      .post("/budgets/transactions.json", data)
+      .then(() => {
+        setLoading(false);
+        console.log("Added");
+      })
+      .catch(() => console.log("Not added"));
   };
 
   const onTransactionChanged = (data) => {
-    const elementID = transactions.findIndex(
+    setLoading(true);
+    const elementID = props.transactions.findIndex(
       (element) => element.id === data.id
     );
 
-    let newArr = [...transactions];
+    let newArr = [...props.transactions];
 
     newArr[elementID] = { ...data };
 
-    setTransactions(newArr);
+    console.log(data.id);
+    axios
+      .get("/budgets/transactions.json")
+      .then((res) => {
+        let firebaseID = "";
+        Object.keys(res.data).map((key) => {
+          if (res.data[key].id === data.id) {
+            firebaseID = key;
+          }
+        });
+        console.log(firebaseID);
+        axios
+          .put("/budgets/transactions/" + firebaseID + ".json", data)
+          .then((res) => {
+            console.log(res);
+            const elementID = props.transactions.findIndex(
+              (element) => element.id === res.data.id
+            );
+
+            let newArr = [...props.transactions];
+
+            newArr[elementID] = { ...res.data };
+
+            props.transactionChange(newArr, "Update");
+            setLoading(false);
+          })
+          .catch((err) => console.log(err));
+      })
+      .catch((err) => console.log(err));
   };
 
   const onTransactionDelete = (data) => {
-    const elementID = transactions.findIndex((element) => element.id === data);
-
-    let newArr = [...transactions];
-
-    newArr.splice(elementID, 1);
-
-    setTransactions(newArr);
+    setLoading(true);
+    const elementID = props.transactions.findIndex(
+      (element) => element.id === data
+    );
+    let firebaseID = "";
+    setLoading(true);
+    axios
+      .get("budgets/transactions.json")
+      .then((response) => {
+        console.log(response.data);
+        Object.keys(response.data).map((keys) => {
+          if (response.data[keys].id === data) {
+            firebaseID = keys;
+          }
+        });
+        if (firebaseID !== null) {
+          axios
+            .delete("budgets/transactions/" + firebaseID + ".json")
+            .then((res) => {
+              console.log(res);
+              let newArr = [...props.transactions];
+              newArr.splice(elementID, 1);
+              props.transactionChange(newArr, "Delete");
+              setLoading(false);
+            })
+            .catch((error) => {
+              setLoading(false);
+              console.log(error);
+            });
+        }
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+      });
   };
+  let transactions = "";
+  let sortedTranasctions = [];
+  if (props.transactions !== undefined || props.transactions !== null) {
+    sortedTranasctions = props.transactions.sort((a, b) => b.date - a.date);
+  }
+  let loader = null;
+  if (loading) loader = <Loader></Loader>;
 
-  const sortedTranasctions = transactions.sort((a, b) => b.date - a.date);
   const ConvertMonth = (month) => {
     switch (month) {
       case 0:
@@ -318,8 +239,29 @@ const Transactions = () => {
     }
   };
 
+  if (sortedTranasctions) {
+    transactions = sortedTranasctions.map((row, index) => {
+      const day = new Date(row.date).getDate();
+      const month = ConvertMonth(new Date(row.date).getMonth());
+      return (
+        <TableRow key={index} className={classes.row} onClick={editClick(row)}>
+          <TableCell className={styles.cell} component="th" scope={row}>
+            {row.category}
+          </TableCell>
+          <TableCell className={styles.cell}>{row.name}</TableCell>
+          <TableCell className={styles.cell}>{row.description}</TableCell>
+          <TableCell className={styles.cell}>{day + " " + month}</TableCell>
+          <TableCell className={styles.cell}>
+            R{Number.parseFloat(row.amount).toFixed(2)}
+          </TableCell>
+        </TableRow>
+      );
+    });
+  }
+
   return (
     <React.Fragment>
+      {loader}
       <div className={classes.Transactions}>
         <TableContainer
           className={styles.container}
@@ -336,37 +278,7 @@ const Transactions = () => {
                 <TableCell className={styles.headercell}>Amount</TableCell>
               </TableRow>
             </TableHead>
-            <TableBody>
-              {sortedTranasctions.map((row, index) => {
-                const day = row.date.getDate();
-                const month = ConvertMonth(row.date.getMonth());
-                return (
-                  <TableRow
-                    key={index}
-                    className={classes.row}
-                    onClick={editClick(row)}
-                  >
-                    <TableCell
-                      className={styles.cell}
-                      component="th"
-                      scope={row}
-                    >
-                      {row.category}
-                    </TableCell>
-                    <TableCell className={styles.cell}>{row.name}</TableCell>
-                    <TableCell className={styles.cell}>
-                      {row.description}
-                    </TableCell>
-                    <TableCell className={styles.cell}>
-                      {day + " " + month}
-                    </TableCell>
-                    <TableCell className={styles.cell}>
-                      R{Number.parseFloat(row.amount).toFixed(2)}
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
-            </TableBody>
+            <TableBody>{transactions}</TableBody>
           </Table>
         </TableContainer>
       </div>
@@ -383,8 +295,8 @@ const Transactions = () => {
           <AddTransactionDrawer
             function={toggleAddDrawer(false)}
             add={onTransactionAdd}
-            count={transactions.length}
-            categories={categories}
+            count={props.transactions.length}
+            categories={props.categories}
           />
         </Drawer>
         <Drawer anchor="right" open={EditOpen} onClose={CloseEditDrawer(false)}>
@@ -393,7 +305,7 @@ const Transactions = () => {
             change={onTransactionChanged}
             function={CloseEditDrawer(false)}
             values={values}
-            categories={categories}
+            categories={props.categories}
           />
         </Drawer>
       </div>

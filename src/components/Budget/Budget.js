@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import { makeStyles, Tooltip } from "@material-ui/core";
 import Alert from "@material-ui/lab/Alert";
 import classes from "./Budget.module.css";
@@ -9,6 +9,7 @@ import BudgetAddDrawer from "./BudgetAddDrawer/BudgetAddDrawer";
 import axios from "../../axios";
 import Grow from "@material-ui/core/Grow";
 import Fab from "@material-ui/core/Fab";
+import Loader from "../UI/Loader/Loader";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -53,71 +54,15 @@ const Budget = (props) => {
   let [addOpen, setAddOpen] = useState(false);
   let [editOpen, SetEditOpen] = useState(false);
   let [dialogOpen, setDialogOpen] = useState(false);
+  let [loading, setLoading] = useState(false);
 
-  const [transactions, setTransactions] = useState([
-    {
-      id: 0,
-      name: "Spur",
-      description: "A great meal at Spur",
-      amount: 500,
-      date: new Date("2020-07-26"),
-      category: "Food",
-    },
-    {
-      id: 1,
-      name: "Woolworths",
-      description: "Spent a lot on Gluten free stuff",
-      amount: 200,
-      date: new Date("2020-07-27"),
-      category: "Food",
-    },
-    {
-      id: 2,
-      name: "Mr.Price",
-      description: "Got some clothes at Mr.Price",
-      amount: 300,
-      date: new Date("2020-07-18"),
-      category: "Clothing",
-    },
-    {
-      id: 3,
-      name: "Woolworths",
-      description: "Bought a fancy jacket",
-      amount: 299,
-      date: new Date("2020-07-11"),
-      category: "Clothing",
-    },
-    {
-      id: 4,
-      name: "Vodacom",
-      description: "R29 airtime",
-      amount: 29,
-      date: new Date("2020-07-15"),
-      category: "Internet/Telephone",
-    },
-    {
-      id: 5,
-      name: "Fibre Telecoms",
-      description: "My monthly fast wifi",
-      amount: 300,
-      date: new Date("2020-07-01"),
-      category: "Internet/Telephone",
-    },
-    {
-      id: 6,
-      name: "FNB Savings",
-      description: "Investing my millions",
-      amount: 700,
-      date: new Date("2020-07-02"),
-      category: "Investments",
-    },
-  ]);
+  const [transactions, setTransactions] = useState(props.transactions);
 
   let [categories, setCategories] = useState(props.categories);
 
   let categoryArr = [];
 
-  categories.map((obj) => {
+  props.categories.map((obj) => {
     let data = {
       id: obj.id,
       category: obj.category,
@@ -125,14 +70,15 @@ const Budget = (props) => {
       transactions: [],
     };
 
-    transactions.forEach((el) => {
+    props.transactions.map((el) => {
       if (el.category === obj.category) {
-        let { id, name, amount, date } = el;
+        let { id, name, amount, date, description } = el;
 
         data.transactions.push({
           id: id,
           name: name,
           amount: amount,
+          description: description,
           date: date,
           category: obj.category,
         });
@@ -145,32 +91,8 @@ const Budget = (props) => {
   };
 
   const EditCategory = (data) => {
-    const id = categories.findIndex((element) => element.id === data.id);
-
-    const Catid = categoryArr.findIndex((element) => element.id === data.id);
-
-    let { transactions: items } = categoryArr[Catid];
-
-    let idArr = [];
-
-    items.map((item) => {
-      idArr.push(item.id);
-    });
-
-    let newTransactionsArr = [...transactions];
-
-    idArr.map((id) => {
-      newTransactionsArr[id].category = data.category;
-    });
-
-    let newArr = [...categories];
-
-    newArr[id] = { ...data };
-
-    setCategories(newArr);
-
+    setLoading(true);
     let firebaseID = "";
-
     axios
       .get("budgets/categories.json")
       .then((res) => {
@@ -183,7 +105,7 @@ const Budget = (props) => {
         axios
           .put("budgets/categories/" + firebaseID + ".json", data)
           .then((res) => {
-            const id = categories.findIndex(
+            const id = props.categories.findIndex(
               (element) => element.id === data.id
             );
 
@@ -193,25 +115,31 @@ const Budget = (props) => {
 
             let { transactions: items } = categoryArr[Catid];
 
-            let idArr = [];
+            let newTransactionsArr = [...props.transactions];
 
             items.map((item) => {
-              idArr.push(item.id);
+              let index = props.transactions.findIndex(
+                (el) => el.id === item.id
+              );
+              newTransactionsArr[index].category = data.category;
             });
 
-            let newTransactionsArr = [...transactions];
+            axios
+              .put("budgets/transactions.json", newTransactionsArr)
+              .then((res) => {
+                props.functionChange(newTransactionsArr, "Update");
+              })
+              .catch((err) => console.log(err));
 
-            idArr.map((id) => {
-              newTransactionsArr[id].category = data.category;
-            });
-
-            let newArr = [...categories];
+            let newArr = [...props.categories];
 
             newArr[id] = { ...data };
 
-            setCategories(newArr);
+            props.categoryChange(newArr, "Update");
+            setLoading(false);
           })
           .catch((err) => {
+            setLoading(false);
             console.log(err);
           });
       })
@@ -219,17 +147,15 @@ const Budget = (props) => {
   };
 
   const AddCategory = (data) => {
+    setLoading(true);
     axios
       .post("budgets/categories.json", data)
       .then((response) => {
         console.log(response);
-
-        let newArr = [...categories];
-        newArr.push({ ...data });
-
-        setCategories(newArr);
+        this.categoryChange(data, "Add");
         console.log(categories);
         //checkBudgetItems();
+        setLoading(false);
       })
       .catch((err) => {
         console.log(err);
@@ -237,6 +163,7 @@ const Budget = (props) => {
   };
 
   const DeleteCategory = (id) => {
+    setLoading(true);
     const Catid = categoryArr.findIndex((element) => element.id === id);
 
     let { transactions: items } = categoryArr[Catid];
@@ -261,10 +188,14 @@ const Budget = (props) => {
               console.log(id);
               newArr.splice(id, 1);
 
-              setCategories(newArr);
+              this.categoryChange(newArr, "Delete");
+              setLoading(false);
               //checkBudgetItems();
             })
-            .catch((error) => console.log(error));
+            .catch((error) => {
+              setLoading(false);
+              console.log(error);
+            });
         })
         .catch((error) => console.log(error));
     }
@@ -308,8 +239,12 @@ const Budget = (props) => {
     budgetItems = "You have no categories yet";
   }
 
+  let loader = null;
+  if (loading) loader = <Loader></Loader>;
+
   return (
     <React.Fragment>
+      {loader}
       <div className={classes.Budget}>{budgetItems}</div>
       <Tooltip
         title="Add Category"

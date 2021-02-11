@@ -25,9 +25,8 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import DrawerForm from "../../DrawerForm/DrawerForm";
 import BtnContainer from "../../ButtonContainer/ButtonContainer";
 import classes from "./EditTransactionsDrawer.module.css";
-import axios from "../../../axios";
+import Loader from "../../UI/Loader/Loader";
 const TransactionDrawer = (props) => {
-  console.log(props.values);
   let [description, setDescription] = useState(props.values.description);
   let [category, setCategory] = useState(props.values.category);
   let [date, setDate] = useState(props.values.date);
@@ -69,6 +68,7 @@ const TransactionDrawer = (props) => {
   const onSubmit = (event) => {
     let data = {
       ...props.values,
+      name: name,
       description: description,
       category: category,
       date: date,
@@ -78,8 +78,6 @@ const TransactionDrawer = (props) => {
     props.change(data);
     props.function();
   };
-
-  const handleChange = (data) => (event) => {};
 
   const materialTheme = createMuiTheme({
     overrides: {
